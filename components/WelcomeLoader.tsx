@@ -84,16 +84,14 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="absolute inset-0 flex items-center justify-center"
+              className="absolute flex items-center gap-3"
             >
-              <span className="flex items-center gap-3">
-                <span
-                  aria-hidden="true"
-                  className="size-[5px] shrink-0 rounded-full bg-foreground"
-                />
-                <span className="text-[20px] font-medium tracking-tight text-foreground md:text-[24px]">
-                  {HELLOS[index]}
-                </span>
+              <span
+                aria-hidden="true"
+                className="size-[5px] shrink-0 rounded-full bg-foreground"
+              />
+              <span className="whitespace-nowrap text-[20px] font-medium tracking-tight text-foreground md:text-[24px]">
+                {HELLOS[index]}
               </span>
             </motion.div>
           </AnimatePresence>
