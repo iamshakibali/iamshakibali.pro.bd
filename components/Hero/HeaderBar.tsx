@@ -36,7 +36,7 @@ export function HeaderBar() {
     if (!logoRef.current) return;
     const logoRect = logoRef.current.getBoundingClientRect();
     const minCenterX = CARD_HALF + HORIZ_PAD;
-    const maxCenterX = window.innerWidth - CARD_HALF - HORIZ_PAD;
+    const maxCenterX = document.documentElement.clientWidth - CARD_HALF - HORIZ_PAD;
     const clampedCenterX = Math.min(Math.max(e.clientX, minCenterX), maxCenterX);
     setPointerOffset(clampedCenterX - logoRect.left - CARD_HALF);
   }
@@ -46,7 +46,7 @@ export function HeaderBar() {
     const logoRect = logoRef.current.getBoundingClientRect();
     const cardCenterX = e.clientX;
     const minCenterX = CARD_HALF + HORIZ_PAD;
-    const maxCenterX = window.innerWidth - CARD_HALF - HORIZ_PAD;
+    const maxCenterX = document.documentElement.clientWidth - CARD_HALF - HORIZ_PAD;
     const clampedCenterX = Math.min(Math.max(cardCenterX, minCenterX), maxCenterX);
     setPointerOffset(clampedCenterX - logoRect.left - CARD_HALF);
     setLogoHovered(true);
@@ -99,7 +99,7 @@ export function HeaderBar() {
                   opacity: { duration: 0.2, ease: "easeOut" },
                   y: { duration: 0.2, ease: "easeOut" },
                   filter: { duration: 0.24, ease: "easeOut" },
-                  x: { type: "spring", stiffness: 600, damping: 32 },
+                  x: { type: "tween", duration: 0.16, ease: "easeOut" },
                 }}
                 className="pointer-events-none absolute left-0 top-full z-20 mt-[-2px]"
               >
