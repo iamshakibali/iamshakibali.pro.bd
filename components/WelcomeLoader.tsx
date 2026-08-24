@@ -48,7 +48,7 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
         }
         return i + 1;
       });
-    }, 300);
+    }, 360);
     return () => clearInterval(id);
   }, [reduce]);
 
@@ -77,13 +77,13 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
     >
       {phase === "words" || !path ? (
         <div className="relative flex h-full w-full items-center justify-center">
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             <motion.div
               key={`word-${HELLOS[index]}`}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
+              transition={{ duration: 0.13, ease: EASE_OUT }}
               className="absolute flex items-center gap-3"
             >
               <span

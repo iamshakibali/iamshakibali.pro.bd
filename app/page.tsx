@@ -134,7 +134,7 @@ function HeroContent() {
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.35 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
           className="mt-4 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Based in Bangladesh, working globally. I started with design, but my curiosity about how things work pulled me toward code.</span>
@@ -144,7 +144,7 @@ function HeroContent() {
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.42 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
           className="mt-6 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Design Engineer at{" "}</span>
@@ -160,7 +160,7 @@ function HeroContent() {
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.49 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.19 }}
           className="mt-4 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400 md:whitespace-nowrap"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Previously, I worked a Sr Product Designer at{" "}</span>
@@ -187,7 +187,7 @@ function HeroContent() {
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.63 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.26 }}
           className="max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Outside of work, I build and open-source apps like{" "}</span>
@@ -208,7 +208,7 @@ function HeroContent() {
           className="flex flex-wrap gap-1"
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={welcomeDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-          transition={{ duration: 0.4, ease: "easeOut", delay: 0.5 + (welcomeDone ? 0 : 0.4) }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 + (welcomeDone ? 0 : 0.4) }}
         >
           <motion.div layout transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.6 }}>
             <Button
