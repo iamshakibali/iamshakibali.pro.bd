@@ -1,5 +1,7 @@
 "use client";
 
+import { NumberTicker } from "@/components/motion/number";
+
 const GRID: string[] = [
   "#e5e5e5 #00bc7d #5ee9b5 #5ee9b5 #5ee9b5 #5ee9b5 #5ee9b5 #e5e5e5 #5ee9b5 #5ee9b5 #5ee9b5 #5ee9b5",
   "#096 #00bc7d #096 #5ee9b5 #00bc7d #00bc7d #5ee9b5 #5ee9b5 #5ee9b5 #00bc7d #00bc7d #5ee9b5",
@@ -10,7 +12,7 @@ const GRID: string[] = [
 
 export function GitHubHoverCard() {
   return (
-    <div className="flex w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
+    <div className="flex h-[175px] w-[290px] flex-col items-start justify-between rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
       <div className="flex w-full items-center justify-between">
         <span className="size-[20px] shrink-0 text-[#525252] dark:text-white">
           <svg
@@ -28,7 +30,7 @@ export function GitHubHoverCard() {
           </svg>
         </span>
         <p className="text-[12.8px] leading-[19.2px] tracking-[-0.256px] whitespace-nowrap">
-          <span className="font-semibold text-[#262626] dark:text-zinc-100">187</span>
+          <span className="font-semibold text-[#262626] dark:text-zinc-100"><NumberTicker value={250} suffix="+" className="align-middle" /></span>
           <span className="font-normal text-[#737373] dark:text-zinc-400"> contributions in 2026</span>
         </p>
       </div>

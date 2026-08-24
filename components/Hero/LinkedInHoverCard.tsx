@@ -1,8 +1,10 @@
 "use client";
 
+import { NumberTicker } from "@/components/motion/number";
+
 export function LinkedInHoverCard() {
   return (
-    <div className="flex w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
+    <div className="flex h-[175px] w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
       <div className="flex w-full items-start justify-between">
         <div className="size-[64px] shrink-0 overflow-hidden rounded-[300px] bg-zinc-100 dark:bg-zinc-800">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -27,11 +29,11 @@ export function LinkedInHoverCard() {
       </div>
       <div className="flex w-full gap-6 pt-[16px]">
         <p className="whitespace-nowrap text-[14.4px] leading-[14.4px] tracking-[-0.288px]">
-          <span className="font-semibold text-[#0a66c2] dark:text-[#70b5ff]">844</span>
+          <span className="font-semibold text-[#0a66c2] dark:text-[#70b5ff]"><NumberTicker value={844} className="align-middle" /></span>
           <span className="font-normal text-[#0a66c2] dark:text-[#70b5ff]"> Followers</span>
         </p>
         <p className="whitespace-nowrap text-[14.4px] leading-[14.4px] tracking-[-0.288px]">
-          <span className="font-semibold text-[#0a66c2] dark:text-[#70b5ff]">500+</span>
+          <span className="font-semibold text-[#0a66c2] dark:text-[#70b5ff]"><NumberTicker value={500} suffix="+" className="align-middle" /></span>
           <span className="font-normal text-[#0a66c2] dark:text-[#70b5ff]"> Connection</span>
         </p>
       </div>
