@@ -1,8 +1,10 @@
 "use client";
 
+import { NumberTicker } from "@/components/motion/number";
+
 export function XHoverCard() {
   return (
-    <div className="flex w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
+    <div className="flex h-[175px] w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
       {/* Header: avatar + Follow pill */}
       <div className="flex w-full items-start justify-between">
         <div className="size-[64px] shrink-0 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
@@ -48,11 +50,11 @@ export function XHoverCard() {
       {/* Stats */}
       <div className="flex w-full gap-6 pt-[16px]">
         <p className="whitespace-nowrap text-[14.4px] leading-[14.4px] tracking-[-0.288px]">
-          <span className="font-semibold text-[#171717] dark:text-zinc-100">220</span>
+          <span className="font-semibold text-[#171717] dark:text-zinc-100"><NumberTicker value={220} className="align-middle" /></span>
           <span className="font-normal text-[#737373] dark:text-zinc-400"> Following</span>
         </p>
         <p className="whitespace-nowrap text-[14.4px] leading-[14.4px] tracking-[-0.288px]">
-          <span className="font-semibold text-[#171717] dark:text-zinc-100">72</span>
+          <span className="font-semibold text-[#171717] dark:text-zinc-100"><NumberTicker value={72} className="align-middle" /></span>
           <span className="font-normal text-[#737373] dark:text-zinc-400"> Followers</span>
         </p>
       </div>

@@ -2,6 +2,21 @@
 
 All notable changes to [iamshakibali.pro.bd](https://iamshakibali.pro.bd/) — Shakib Ali's personal portfolio.
 
+## 2026-08-25
+
+### Badge video popups
+- Re-enabled the badge popup cards; **Vivetica**, **Orbix Studio**, and **ScreensDesign** now play screen recordings of each site (cropped to remove the black bars baked into the source recordings); Pintop's popup is disabled
+- Per-badge card sizing: Vivetica/Orbix/Screens at 290px wide with height following the video aspect ratio; default stays 200×118
+- Hydration fix: popups render through a portal to `document.body` (a `<div>` may not nest inside the bio `<p>`), with scroll/resize re-anchoring
+
+### Pill hover cards
+- The X, GitHub, and LinkedIn hover cards merged into **one shared card that morphs** — it glides between buttons (160ms ease-out) while content crossfades, instead of jumping
+- Rolling number tickers on all counts (X 220/72, LinkedIn 844/500+, GitHub 250+ contributions); all three cards equalized to 175px
+
+### Signature
+- Welcome handoff eased with the shared ease-out curve: fast launch, brake, smooth settle
+- Magnetic ink: the resting signature leans toward a nearby cursor (≤3px drift + ≤1.2° tilt, soft spring) and settles back on leave
+
 ## 2026-08-24
 
 ### Description logo badges
