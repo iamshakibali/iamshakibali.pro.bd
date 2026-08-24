@@ -44,7 +44,7 @@ function HeroContent() {
   const getOffset = (e: React.MouseEvent, ref: React.RefObject<HTMLDivElement | null>) => {
     if (!ref.current) return 0;
     const r = ref.current.getBoundingClientRect();
-    const clamped = Math.min(Math.max(e.clientX, GH_CARD_HALF + 12), window.innerWidth - GH_CARD_HALF - 12);
+    const clamped = Math.min(Math.max(e.clientX, GH_CARD_HALF + 12), document.documentElement.clientWidth - GH_CARD_HALF - 12);
     return clamped - r.left - GH_CARD_HALF;
   };
 
@@ -260,7 +260,7 @@ function HeroContent() {
                     opacity: { duration: 0.2, ease: "easeOut" },
                     y: { duration: 0.2, ease: "easeOut" },
                     filter: { duration: 0.24, ease: "easeOut" },
-                    x: { type: "spring", stiffness: 600, damping: 32 },
+                    x: { type: "tween", duration: 0.16, ease: "easeOut" },
                   }}
                   className="pointer-events-none absolute left-0 top-full z-20 mt-3"
                 >
@@ -310,7 +310,7 @@ function HeroContent() {
                     opacity: { duration: 0.2, ease: "easeOut" },
                     y: { duration: 0.2, ease: "easeOut" },
                     filter: { duration: 0.24, ease: "easeOut" },
-                    x: { type: "spring", stiffness: 600, damping: 32 },
+                    x: { type: "tween", duration: 0.16, ease: "easeOut" },
                   }}
                   className="pointer-events-none absolute left-0 top-full z-20 mt-3"
                 >
@@ -360,7 +360,7 @@ function HeroContent() {
                     opacity: { duration: 0.2, ease: "easeOut" },
                     y: { duration: 0.2, ease: "easeOut" },
                     filter: { duration: 0.24, ease: "easeOut" },
-                    x: { type: "spring", stiffness: 600, damping: 32 },
+                    x: { type: "tween", duration: 0.16, ease: "easeOut" },
                   }}
                   className="pointer-events-none absolute left-0 top-full z-20 mt-3"
                 >
