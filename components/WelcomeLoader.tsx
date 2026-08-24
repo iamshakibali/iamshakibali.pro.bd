@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { EASE_OUT } from "@/lib/ease";
 
 const HELLOS = ["Hello", "Bonjour", "স্বাগতম", "你好", "こんにちは"];
 
@@ -117,7 +118,7 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
                   x: path.endX,
                   y: path.endY,
                   scale: path.endScale,
-                  transition: { duration: 0.65, ease: "easeInOut" },
+                  transition: { duration: 0.7, ease: EASE_OUT },
                 }
               : {
                   opacity: 1,
