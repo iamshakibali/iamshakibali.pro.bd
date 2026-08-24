@@ -34,16 +34,6 @@ My personal portfolio — designed and built from scratch as one continuous expe
 | Typography | Geist Sans & Mono, Overused Grotesk                          |
 | Hosting    | GitHub Pages, custom domain via GitHub Actions               |
 
-## Elsewhere
-
-- [GitHub](https://github.com/iamshakibali)
-- [YouTube](https://www.youtube.com/@Iamshakibali)
-- [Instagram](https://www.instagram.com/iamshakibali)
-- [Facebook](https://www.facebook.com/iamshakibali)
-- [LinkedIn](https://www.linkedin.com/in/imahskaibali)
-- [X](https://x.com/imahskaibali)
-- [Dribbble](https://dribbble.com/imahskaibali)
-
 ---
 
 © 2026 Shakib Ali
