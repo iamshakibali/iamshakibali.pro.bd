@@ -103,7 +103,7 @@ export function HeaderBar() {
                 }}
                 className="pointer-events-none absolute left-0 top-full z-20 mt-[-2px]"
               >
-                <div className="h-[203px] w-[200px] shrink-0 overflow-hidden rounded-2xl border-8 border-white shadow-2xl shadow-black/20 dark:border-neutral-800">
+                <div className="h-[203px] w-[200px] shrink-0 overflow-hidden rounded-2xl border-8 border-white shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:border-neutral-800">
                   <img
                     src="/avatar.gif"
                     alt="Shakib Ali"

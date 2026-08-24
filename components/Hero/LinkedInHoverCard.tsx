@@ -2,11 +2,11 @@
 
 export function LinkedInHoverCard() {
   return (
-    <div className="flex w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.08)] dark:bg-zinc-900 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+    <div className="flex w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
       <div className="flex w-full items-start justify-between">
         <div className="size-[64px] shrink-0 overflow-hidden rounded-[300px] bg-zinc-100 dark:bg-zinc-800">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/linkedin-avatar.png" alt="Shakib Ali" width={64} height={64} className="size-full object-cover" />
+          <img src="/linkedin-avatar.png" alt="Shakib Ali" width={64} height={64} draggable={false} className="size-full object-cover" />
         </div>
         <div className="shrink-0 rounded-full bg-[#0a66c2] px-[16px] py-[10px]">
           <p className="whitespace-nowrap text-[14.4px] font-semibold leading-[14.4px] tracking-[-0.288px] text-white">Follow</p>

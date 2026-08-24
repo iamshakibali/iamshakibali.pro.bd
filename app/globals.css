@@ -38,3 +38,13 @@ kbd,
 samp {
   font-family: var(--font-geist-mono);
 }
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* TEMP: hover-blur disabled for checking — delete this block to restore blur */
+.blur-\[8px\] {
+  filter: none !important;
+}
