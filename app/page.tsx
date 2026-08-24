@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { CoordinateProvider, useCoordinates } from "@/components/Hero/CoordinateTracker";
 import { GitHubHoverCard } from "@/components/Hero/GitHubHoverCard";
 import { XHoverCard } from "@/components/Hero/XHoverCard";
@@ -25,12 +25,9 @@ const FADE_UP = {
 function HeroContent() {
   const { handleMouseMove } = useCoordinates();
   const welcomeDone = useWelcomeDone();
-  const [githubHovered, setGithubHovered] = useState(false);
-  const [ghPointerOffset, setGhPointerOffset] = useState(0);
-  const [xHovered, setXHovered] = useState(false);
-  const [xPointerOffset, setXPointerOffset] = useState(0);
-  const [linkedInHovered, setLinkedInHovered] = useState(false);
-  const [liPointerOffset, setLiPointerOffset] = useState(0);
+  const [pillHovered, setPillHovered] = useState<"x" | "gh" | "li" | null>(null);
+  const [pillOffset, setPillOffset] = useState(0);
+  const [pillCardY, setPillCardY] = useState(0);
   const [mailCopied, setMailCopied] = useState(false);
   const [logoHovered, setLogoHovered] = useState<string | null>(null);
   // motion.p leaves inline filter:blur(0px) after FADE_UP, so blur text via inner spans, not the <p>
@@ -39,19 +36,63 @@ function HeroContent() {
   const ghWrapperRef = useRef<HTMLDivElement>(null);
   const xWrapperRef = useRef<HTMLDivElement>(null);
   const liWrapperRef = useRef<HTMLDivElement>(null);
+  const pillRowRef = useRef<HTMLDivElement>(null);
+  const sigRef = useRef<SVGSVGElement>(null);
 
-  // single source of truth — left-0 anchored like HeaderBar, no width/2 drift
-  const getOffset = (e: React.MouseEvent, ref: React.RefObject<HTMLDivElement | null>) => {
-    if (!ref.current) return 0;
-    const r = ref.current.getBoundingClientRect();
-    const clamped = Math.min(Math.max(e.clientX, GH_CARD_HALF + 12), window.innerWidth - GH_CARD_HALF - 12);
+  // magnetic ink: the resting signature leans toward a nearby cursor (max ~3px
+  // drift + ~1.2deg tilt) and settles back with a soft spring when it leaves
+  const sigMagX = useMotionValue(0);
+  const sigMagY = useMotionValue(0);
+  const sigMagR = useMotionValue(0);
+  const sigSpringX = useSpring(sigMagX, { stiffness: 150, damping: 20, mass: 0.5 });
+  const sigSpringY = useSpring(sigMagY, { stiffness: 150, damping: 20, mass: 0.5 });
+  const sigSpringR = useSpring(sigMagR, { stiffness: 150, damping: 20, mass: 0.5 });
+
+  const handleSigMagnetic = (e: React.MouseEvent) => {
+    const el = sigRef.current;
+    if (!el || reduce) return;
+    const r = el.getBoundingClientRect();
+    const dx = e.clientX - (r.left + r.width / 2);
+    const dy = e.clientY - (r.top + r.height / 2);
+    const dist = Math.hypot(dx, dy);
+    const RADIUS = 240;
+    if (dist > RADIUS || dist === 0) {
+      sigMagX.set(0);
+      sigMagY.set(0);
+      sigMagR.set(0);
+      return;
+    }
+    const pull = 1 - dist / RADIUS;
+    sigMagX.set((dx / dist) * 3 * pull);
+    sigMagY.set((dy / dist) * 3 * pull);
+    sigMagR.set((dx / RADIUS) * 1.2);
+  };
+
+  // one shared card morphs between the three pills: x/y are relative to the pill
+  // row and clamp to the viewport, so switching buttons glides instead of jumping
+  const pillWrapperRefs = { x: xWrapperRef, gh: ghWrapperRef, li: liWrapperRef };
+  const getPillOffset = (e: React.MouseEvent) => {
+    if (!pillRowRef.current) return 0;
+    const r = pillRowRef.current.getBoundingClientRect();
+    const clamped = Math.min(Math.max(e.clientX, GH_CARD_HALF + 12), document.documentElement.clientWidth - GH_CARD_HALF - 12);
     return clamped - r.left - GH_CARD_HALF;
+  };
+  const hoverPill = (target: "x" | "gh" | "li", e: React.MouseEvent) => {
+    setPillOffset(getPillOffset(e));
+    const wrapper = pillWrapperRefs[target].current;
+    if (wrapper && pillRowRef.current) {
+      setPillCardY(wrapper.getBoundingClientRect().bottom - pillRowRef.current.getBoundingClientRect().top + 12);
+    }
+    setPillHovered(target);
   };
 
   return (
     <div
       className="relative flex min-h-screen flex-col bg-background text-foreground"
-      onMouseMove={handleMouseMove}
+      onMouseMove={(e) => {
+        handleMouseMove(e);
+        handleSigMagnetic(e);
+      }}
     >
       <HeaderBar />
 
@@ -60,9 +101,11 @@ function HeroContent() {
         <motion.svg
           viewBox="0 0 1920 1080"
           id="hero-signature"
+          ref={sigRef}
           className="-ml-4 mb-6 h-24 w-auto shrink-0 self-start text-foreground"
           xmlns="http://www.w3.org/2000/svg"
           aria-label="Shakib signature"
+          style={{ x: sigSpringX, y: sigSpringY, rotate: sigSpringR }}
           initial={reduce ? false : { opacity: 0 }}
           animate={welcomeDone ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0 }}
@@ -105,7 +148,7 @@ function HeroContent() {
           className="mt-6 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Design Engineer at{" "}</span>
-          <LogoBadge id="vivetica" label="Vivetica" src="/badges/company-logo.svg" href="https://viveticacapital.ch" imgClassName="dark:invert" active={logoHovered === "vivetica"} dimmed={logoHovered !== null && logoHovered !== "vivetica"} onHoverChange={setLogoHovered}>
+          <LogoBadge id="vivetica" label="Vivetica" src="/badges/company-logo.svg" href="https://viveticacapital.ch" videoSrc="/badges/vivetica.mp4" width={290} imgClassName="dark:invert" active={logoHovered === "vivetica"} dimmed={logoHovered !== null && logoHovered !== "vivetica"} onHoverChange={setLogoHovered}>
             <span className="inline-flex h-[21px] items-center justify-center rounded-full bg-[#f2f2f2] px-[10px] align-middle dark:bg-neutral-800">
               <img src="/badges/company-logo.svg" alt="Vivetica" draggable={false} className="h-[13px] w-[74px] dark:invert" />
             </span>
@@ -121,7 +164,7 @@ function HeroContent() {
           className="mt-4 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400 md:whitespace-nowrap"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Previously, I worked a Sr Product Designer at{" "}</span>
-          <LogoBadge id="orbix" label="Orbix Studio" src="/badges/orbix.png" href="https://www.orbix.studio/" active={logoHovered === "orbix"} dimmed={logoHovered !== null && logoHovered !== "orbix"} onHoverChange={setLogoHovered}>
+          <LogoBadge id="orbix" label="Orbix Studio" src="/badges/orbix.png" href="https://www.orbix.studio/" videoSrc="/badges/orbix.mp4" width={290} active={logoHovered === "orbix"} dimmed={logoHovered !== null && logoHovered !== "orbix"} onHoverChange={setLogoHovered}>
             <span className="whitespace-nowrap">
               <span className="mx-[1px] inline-block size-[21px] align-middle">
                 <img src="/badges/orbix.png" alt="Orbix Studio" draggable={false} className="size-full rounded-full object-cover" />
@@ -130,7 +173,7 @@ function HeroContent() {
             </span>
           </LogoBadge>{" "}
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>&amp;{" "}</span>
-          <LogoBadge id="screens" label="ScreensDesign" src="/badges/screens.png" href="https://screensdesign.com" active={logoHovered === "screens"} dimmed={logoHovered !== null && logoHovered !== "screens"} onHoverChange={setLogoHovered}>
+          <LogoBadge id="screens" label="ScreensDesign" src="/badges/screens.png" href="https://screensdesign.com" videoSrc="/badges/screens.mp4" width={290} active={logoHovered === "screens"} dimmed={logoHovered !== null && logoHovered !== "screens"} onHoverChange={setLogoHovered}>
             <span className="whitespace-nowrap">
               <span className="mx-[1px] inline-block size-[21px] align-middle">
                 <img src="/badges/screens.png" alt="ScreensDesign" draggable={false} className="size-full rounded-full object-cover" />
@@ -148,7 +191,7 @@ function HeroContent() {
           className="max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Outside of work, I build and open-source apps like{" "}</span>
-          <LogoBadge id="pintop" label="Pintop" src="/badges/pintop.png" href="https://github.com/iamshakibali/pin-top" active={logoHovered === "pintop"} dimmed={logoHovered !== null && logoHovered !== "pintop"} onHoverChange={setLogoHovered}>
+          <LogoBadge id="pintop" label="Pintop" src="/badges/pintop.png" href="https://github.com/iamshakibali/pin-top" popup={false} active={logoHovered === "pintop"} dimmed={logoHovered !== null && logoHovered !== "pintop"} onHoverChange={setLogoHovered}>
             <span className="whitespace-nowrap">
               <span className="mx-[1px] inline-block h-[21px] w-[21px] align-middle">
                 <img src="/badges/pintop.png" alt="Pintop" draggable={false} className="size-full object-contain" />
@@ -159,9 +202,10 @@ function HeroContent() {
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, and love contributing to open-source projects.</span>
         </motion.p>
 
+        <div ref={pillRowRef} className="relative mt-8">
         <motion.div
           layout
-          className="mt-8 flex flex-wrap gap-1"
+          className="flex flex-wrap gap-1"
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={welcomeDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 0.4, ease: "easeOut", delay: 0.5 + (welcomeDone ? 0 : 0.4) }}
@@ -224,9 +268,9 @@ function HeroContent() {
             transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.6 } as any}
             ref={xWrapperRef as any}
             className="relative inline-flex"
-            onMouseEnter={(e) => { setXPointerOffset(getOffset(e, xWrapperRef)); setXHovered(true); }}
-            onMouseMove={(e) => setXPointerOffset(getOffset(e, xWrapperRef))}
-            onMouseLeave={() => setXHovered(false)}
+            onMouseEnter={(e) => hoverPill("x", e)}
+            onMouseMove={(e) => setPillOffset(getPillOffset(e))}
+            onMouseLeave={() => setPillHovered(null)}
           >
             <ButtonLink
               variant="pill"
@@ -250,33 +294,15 @@ function HeroContent() {
                 </span>
               </span>
             </ButtonLink>
-            <AnimatePresence>
-              {xHovered && (
-                <motion.div
-                  initial={{ opacity: 0, y: 16, filter: "blur(12px)", x: xPointerOffset }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)", x: xPointerOffset }}
-                  exit={{ opacity: 0, y: 10, filter: "blur(10px)" }}
-                  transition={{
-                    opacity: { duration: 0.2, ease: "easeOut" },
-                    y: { duration: 0.2, ease: "easeOut" },
-                    filter: { duration: 0.24, ease: "easeOut" },
-                    x: { type: "spring", stiffness: 600, damping: 32 },
-                  }}
-                  className="pointer-events-none absolute left-0 top-full z-20 mt-3"
-                >
-                  <XHoverCard />
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
           <motion.div
             layout="position"
             transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.6 } as any}
             ref={ghWrapperRef as any}
             className="relative inline-flex"
-            onMouseEnter={(e) => { setGhPointerOffset(getOffset(e, ghWrapperRef)); setGithubHovered(true); }}
-            onMouseMove={(e) => setGhPointerOffset(getOffset(e, ghWrapperRef))}
-            onMouseLeave={() => setGithubHovered(false)}
+            onMouseEnter={(e) => hoverPill("gh", e)}
+            onMouseMove={(e) => setPillOffset(getPillOffset(e))}
+            onMouseLeave={() => setPillHovered(null)}
           >
             <ButtonLink
               variant="pill"
@@ -300,33 +326,15 @@ function HeroContent() {
                 </span>
               </span>
             </ButtonLink>
-            <AnimatePresence>
-              {githubHovered && (
-                <motion.div
-                  initial={{ opacity: 0, y: 16, filter: "blur(12px)", x: ghPointerOffset }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)", x: ghPointerOffset }}
-                  exit={{ opacity: 0, y: 10, filter: "blur(10px)" }}
-                  transition={{
-                    opacity: { duration: 0.2, ease: "easeOut" },
-                    y: { duration: 0.2, ease: "easeOut" },
-                    filter: { duration: 0.24, ease: "easeOut" },
-                    x: { type: "spring", stiffness: 600, damping: 32 },
-                  }}
-                  className="pointer-events-none absolute left-0 top-full z-20 mt-3"
-                >
-                  <GitHubHoverCard />
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
           <motion.div
             layout="position"
             transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.6 } as any}
             ref={liWrapperRef as any}
             className="relative inline-flex"
-            onMouseEnter={(e) => { setLiPointerOffset(getOffset(e, liWrapperRef)); setLinkedInHovered(true); }}
-            onMouseMove={(e) => setLiPointerOffset(getOffset(e, liWrapperRef))}
-            onMouseLeave={() => setLinkedInHovered(false)}
+            onMouseEnter={(e) => hoverPill("li", e)}
+            onMouseMove={(e) => setPillOffset(getPillOffset(e))}
+            onMouseLeave={() => setPillHovered(null)}
           >
             <ButtonLink
               variant="pill"
@@ -350,26 +358,37 @@ function HeroContent() {
                 </span>
               </span>
             </ButtonLink>
-            <AnimatePresence>
-              {linkedInHovered && (
-                <motion.div
-                  initial={{ opacity: 0, y: 16, filter: "blur(12px)", x: liPointerOffset }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)", x: liPointerOffset }}
-                  exit={{ opacity: 0, y: 10, filter: "blur(10px)" }}
-                  transition={{
-                    opacity: { duration: 0.2, ease: "easeOut" },
-                    y: { duration: 0.2, ease: "easeOut" },
-                    filter: { duration: 0.24, ease: "easeOut" },
-                    x: { type: "spring", stiffness: 600, damping: 32 },
-                  }}
-                  className="pointer-events-none absolute left-0 top-full z-20 mt-3"
-                >
-                  <LinkedInHoverCard />
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
         </motion.div>
+        <AnimatePresence>
+          {pillHovered && (
+            <motion.div
+              initial={{ opacity: 0, y: pillCardY + 16, filter: "blur(12px)", x: pillOffset }}
+              animate={{ opacity: 1, y: pillCardY, filter: "blur(0px)", x: pillOffset }}
+              exit={{ opacity: 0, y: pillCardY + 10, filter: "blur(10px)" }}
+              transition={{
+                opacity: { duration: 0.2, ease: "easeOut" },
+                y: { duration: 0.2, ease: "easeOut" },
+                filter: { duration: 0.24, ease: "easeOut" },
+                x: { type: "tween", duration: 0.16, ease: "easeOut" },
+              }}
+              className="pointer-events-none absolute left-0 top-0 z-20"
+            >
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.div
+                  key={pillHovered}
+                  initial={pillHovered === "x" ? { opacity: 0, filter: "blur(6px)" } : false}
+                  animate={{ opacity: 1, filter: "blur(0px)" }}
+                  exit={pillHovered === "x" ? { opacity: 0, filter: "blur(6px)" } : { opacity: 0, filter: "blur(0px)" }}
+                  transition={pillHovered === "x" ? { duration: 0.16, ease: "easeOut" } : { duration: 0 }}
+                >
+                  {pillHovered === "x" ? <XHoverCard /> : pillHovered === "gh" ? <GitHubHoverCard /> : <LinkedInHoverCard />}
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        </div>
         </div>
       </div>
     </div>
