@@ -7,6 +7,7 @@ import { GitHubHoverCard } from "@/components/Hero/GitHubHoverCard";
 import { XHoverCard } from "@/components/Hero/XHoverCard";
 import { LinkedInHoverCard } from "@/components/Hero/LinkedInHoverCard";
 import { HeaderBar } from "@/components/Hero/HeaderBar";
+import { LogoBadge } from "@/components/Hero/LogoBadge";
 import { WelcomeGate } from "@/components/WelcomeGate";
 import { useWelcomeDone } from "@/components/WelcomeDoneContext";
 import { Button, ButtonLink } from "@/components/motion/button";
@@ -31,6 +32,9 @@ function HeroContent() {
   const [linkedInHovered, setLinkedInHovered] = useState(false);
   const [liPointerOffset, setLiPointerOffset] = useState(0);
   const [mailCopied, setMailCopied] = useState(false);
+  const [logoHovered, setLogoHovered] = useState<string | null>(null);
+  // motion.p leaves inline filter:blur(0px) after FADE_UP, so blur text via inner spans, not the <p>
+  const blurCls = `transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`;
   const reduce = useReducedMotion() ?? false;
   const ghWrapperRef = useRef<HTMLDivElement>(null);
   const xWrapperRef = useRef<HTMLDivElement>(null);
@@ -88,9 +92,9 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.35 }}
-          className="mt-4 max-w-[540px] text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300"
+          className="mt-4 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
-          I&apos;m a product designer and design engineer based in Bangladesh. I started with design, but curiosity about how things work pulled me toward code.
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Based in Bangladesh, working globally. I started with design, but my curiosity about how things work pulled me toward code.</span>
         </motion.p>
 
         <motion.p
@@ -98,9 +102,61 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.42 }}
-          className="mt-3 max-w-[540px] text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300"
+          className="mt-6 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
-          Today, I design and build digital products at Aureus, while contributing to open source and exploring AI-native ways to build.
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Design Engineer at{" "}</span>
+          <LogoBadge id="vivetica" label="Vivetica" src="/badges/company-logo.svg" href="https://viveticacapital.ch" imgClassName="dark:invert" active={logoHovered === "vivetica"} dimmed={logoHovered !== null && logoHovered !== "vivetica"} onHoverChange={setLogoHovered}>
+            <span className="inline-flex h-[21px] items-center justify-center rounded-full bg-[#f2f2f2] px-[10px] align-middle dark:bg-neutral-800">
+              <img src="/badges/company-logo.svg" alt="Vivetica" draggable={false} className="h-[13px] w-[74px] dark:invert" />
+            </span>
+          </LogoBadge>{" "}
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, building design frameworks and systems.</span>
+        </motion.p>
+
+        <motion.p
+          variants={FADE_UP}
+          initial={reduce ? false : "hidden"}
+          animate={welcomeDone ? "visible" : "hidden"}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.49 }}
+          className="mt-4 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400 md:whitespace-nowrap"
+        >
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Previously, I worked a Sr Product Designer at{" "}</span>
+          <LogoBadge id="orbix" label="Orbix Studio" src="/badges/orbix.png" href="https://www.orbix.studio/" active={logoHovered === "orbix"} dimmed={logoHovered !== null && logoHovered !== "orbix"} onHoverChange={setLogoHovered}>
+            <span className="whitespace-nowrap">
+              <span className="mx-[1px] inline-block size-[21px] align-middle">
+                <img src="/badges/orbix.png" alt="Orbix Studio" draggable={false} className="size-full rounded-full object-cover" />
+              </span>{" "}
+              <span className="font-medium text-black dark:text-white">Orbix Studio</span>
+            </span>
+          </LogoBadge>{" "}
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>&amp;{" "}</span>
+          <LogoBadge id="screens" label="ScreensDesign" src="/badges/screens.png" href="https://screensdesign.com" active={logoHovered === "screens"} dimmed={logoHovered !== null && logoHovered !== "screens"} onHoverChange={setLogoHovered}>
+            <span className="whitespace-nowrap">
+              <span className="mx-[1px] inline-block size-[21px] align-middle">
+                <img src="/badges/screens.png" alt="ScreensDesign" draggable={false} className="size-full rounded-full object-cover" />
+              </span>{" "}
+              <span className="font-medium text-black dark:text-white">ScreensDesign</span>
+            </span>
+          </LogoBadge>
+        </motion.p>
+
+        <motion.p
+          variants={FADE_UP}
+          initial={reduce ? false : "hidden"}
+          animate={welcomeDone ? "visible" : "hidden"}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.63 }}
+          className="max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+        >
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Outside of work, I build and open-source apps like{" "}</span>
+          <LogoBadge id="pintop" label="Pintop" src="/badges/pintop.png" href="https://github.com/iamshakibali/pin-top" active={logoHovered === "pintop"} dimmed={logoHovered !== null && logoHovered !== "pintop"} onHoverChange={setLogoHovered}>
+            <span className="whitespace-nowrap">
+              <span className="mx-[1px] inline-block h-[21px] w-[21px] align-middle">
+                <img src="/badges/pintop.png" alt="Pintop" draggable={false} className="size-full object-contain" />
+              </span>{" "}
+              <span className="font-medium text-black dark:text-white">Pintop</span>
+            </span>
+          </LogoBadge>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, and love contributing to open-source projects.</span>
         </motion.p>
 
         <motion.div

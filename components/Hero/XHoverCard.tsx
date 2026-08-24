@@ -2,7 +2,7 @@
 
 export function XHoverCard() {
   return (
-    <div className="flex w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.12),0_1px_3px_rgba(0,0,0,0.08)] dark:bg-zinc-900 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+    <div className="flex w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
       {/* Header: avatar + Follow pill */}
       <div className="flex w-full items-start justify-between">
         <div className="size-[64px] shrink-0 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
@@ -12,6 +12,7 @@ export function XHoverCard() {
             alt="Shakib Ali"
             width={64}
             height={64}
+            draggable={false}
             className="size-full scale-[1.45] object-cover object-[58%_22%]"
           />
         </div>
