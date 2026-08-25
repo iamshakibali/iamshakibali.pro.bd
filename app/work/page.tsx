@@ -37,6 +37,26 @@ const ENTRY_ICONS = {
   pen: PenGlyph,
 };
 
+// [[label|url]] inside a highlight renders as a slightly darker, clearly
+// clickable link; everything else stays plain dim text
+function renderHighlight(h: string) {
+  return h.split(/(\[\[[^\]]+\]\])/g).map((part, i) => {
+    const match = part.match(/^\[\[([^|]+)\|([^\]]+)\]\]$/);
+    if (!match) return <span key={i}>{part}</span>;
+    return (
+      <a
+        key={i}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-medium text-neutral-700 transition-colors hover:text-foreground dark:text-neutral-300 dark:hover:text-white"
+      >
+        {match[1]}
+      </a>
+    );
+  });
+}
+
 export default function WorkPage() {
   const reduce = useReducedMotion() ?? false;
   return (
@@ -54,7 +74,7 @@ export default function WorkPage() {
         >
           <TextScramble text="Experience" />
           <motion.span
-            className="ml-3 inline-block font-mono text-[12px] font-light tracking-[-0.3px] text-neutral-500 dark:text-neutral-400"
+            className="mt-2 block font-mono text-[12px] font-light tracking-[-0.3px] text-neutral-500 dark:text-neutral-400 sm:ml-3 sm:mt-0 sm:inline-block"
             variants={FADE_UP}
             initial={reduce ? false : "hidden"}
             animate="visible"
@@ -82,8 +102,8 @@ export default function WorkPage() {
                 rel="noopener noreferrer"
                 className="shrink-0"
               >
-                {job.logo ? (
-                  <img src={job.logo} alt="" width={24} height={24} draggable={false} className="size-6 rounded-full transition-opacity hover:opacity-70 dark:invert" />
+                {job.logo.length > 0 ? (
+                  <img src={job.logo} alt="" width={24} height={24} draggable={false} className={`size-6 rounded-full transition-opacity hover:opacity-70 ${job.logoInvert ? "dark:invert" : ""}`} />
                 ) : (
                   <span className="flex size-6 items-center justify-center rounded-full bg-neutral-100 font-mono text-xs text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400">
                     {job.company.charAt(0)}
@@ -185,7 +205,7 @@ export default function WorkPage() {
                       transition={{ duration: 0.45, ease: "easeOut", delay: 0.36 + i * 0.07 }}
                     >
                       <span aria-hidden className="flex w-[15px] shrink-0 justify-end text-[rgba(9,9,11,0.25)] dark:text-white/25">•</span>
-                      <span className="whitespace-pre-line">{h}</span>
+                      <span className="whitespace-pre-line">{renderHighlight(h)}</span>
                     </motion.li>
                   ))}
                 </ul>
