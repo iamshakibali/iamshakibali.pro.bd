@@ -77,24 +77,28 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
     >
       {phase === "words" || !path ? (
         <div className="relative flex h-full w-full items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`word-${HELLOS[index]}`}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.13, ease: EASE_OUT }}
-              className="absolute flex items-center gap-3"
-            >
-              <span
-                aria-hidden="true"
-                className="size-[5px] shrink-0 rounded-full bg-foreground"
-              />
-              <span className="whitespace-nowrap text-[20px] font-medium tracking-tight text-foreground md:text-[24px]">
-                {HELLOS[index]}
-              </span>
-            </motion.div>
-          </AnimatePresence>
+          {/* masked roll: incoming/outgoing words share one grid cell and roll
+              ±32px, so they never overlap — the line-height box clips the roll */}
+          <div className="grid overflow-hidden">
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={`word-${HELLOS[index]}`}
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -32 }}
+                transition={{ duration: 0.28, ease: EASE_OUT }}
+                className="col-start-1 row-start-1 flex items-center gap-3"
+              >
+                <span
+                  aria-hidden="true"
+                  className="size-[5px] shrink-0 rounded-full bg-foreground"
+                />
+                <span className="text-[20px] font-medium leading-[1.2] tracking-tight text-foreground md:text-[24px]">
+                  {HELLOS[index]}
+                </span>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       ) : (
         <motion.svg
