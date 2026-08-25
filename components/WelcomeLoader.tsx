@@ -48,7 +48,7 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
         }
         return i + 1;
       });
-    }, 360);
+    }, 300);
     return () => clearInterval(id);
   }, [reduce]);
 
@@ -82,13 +82,13 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
           <AnimatePresence mode="wait">
             <motion.div
               key={`word-${HELLOS[index]}`}
-              initial={{ opacity: 0, filter: "blur(6px)" }}
-              animate={{ opacity: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, filter: "blur(6px)" }}
+              initial={{ opacity: 0, y: 32, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -32, filter: "blur(6px)" }}
               transition={{
-                duration: 0.11,
+                duration: 0.08,
                 ease: EASE_OUT,
-                filter: { duration: 0.12, ease: "easeOut" },
+                filter: { duration: 0.09, ease: "easeOut" },
               }}
               className="flex items-center gap-3"
             >
