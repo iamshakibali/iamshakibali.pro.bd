@@ -4,7 +4,7 @@ import { NumberTicker } from "@/components/motion/number";
 
 export function LinkedInHoverCard() {
   return (
-    <div className="flex h-[175px] w-[290px] flex-col items-start rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
+    <div className="flex h-[143px] w-full flex-col items-start">
       <div className="flex w-full items-start justify-between">
         <div className="size-[64px] shrink-0 overflow-hidden rounded-[300px] bg-zinc-100 dark:bg-zinc-800">
           {/* eslint-disable-next-line @next/next/no-img-element */}

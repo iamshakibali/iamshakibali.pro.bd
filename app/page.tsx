@@ -347,16 +347,17 @@ function HeroContent() {
         <AnimatePresence>
           {pillHovered && (
             <motion.div
-              initial={{ opacity: 0, y: pillCardY + 16, filter: "blur(12px)", x: pillOffset }}
-              animate={{ opacity: 1, y: pillCardY, filter: "blur(0px)", x: pillOffset }}
+              initial={{ opacity: 0, y: pillCardY + 16, filter: "blur(12px)", x: pillOffset, height: pillHovered === "gh" ? 138 : 175 }}
+              animate={{ opacity: 1, y: pillCardY, filter: "blur(0px)", x: pillOffset, height: pillHovered === "gh" ? 138 : 175 }}
               exit={{ opacity: 0, y: pillCardY + 10, filter: "blur(10px)" }}
               transition={{
                 opacity: { duration: 0.2, ease: "easeOut" },
                 y: { duration: 0.2, ease: "easeOut" },
                 filter: { duration: 0.24, ease: "easeOut" },
                 x: { type: "tween", duration: 0.16, ease: "easeOut" },
+                height: { type: "tween", duration: 0.2, ease: "easeOut" },
               }}
-              className="pointer-events-none absolute left-0 top-0 z-20"
+              className="pointer-events-none absolute left-0 top-0 z-20 w-[290px] overflow-hidden rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900"
             >
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
