@@ -11,6 +11,32 @@ const FADE_UP = {
   visible: { opacity: 1, y: 0, filter: "blur(0px)" },
 };
 
+function CodeGlyph(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth={16} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="64 88 16 128 64 168" />
+      <polyline points="192 88 240 128 192 168" />
+      <line x1="160" y1="40" x2="96" y2="216" />
+    </svg>
+  );
+}
+
+function PenGlyph(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth={16} strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <line x1="184" y1="72" x2="32" y2="224" />
+      <path d="M146.34,189.66a8,8,0,0,1-5.65,2.34H64V115.31a8,8,0,0,1,2.34-5.65L136.4,40.4a56,56,0,0,1,79.2,79.2Z" />
+      <line x1="112" y1="64.52" x2="112" y2="144" />
+      <line x1="136" y1="120" x2="215.2" y2="120" />
+    </svg>
+  );
+}
+
+const ENTRY_ICONS = {
+  code: CodeGlyph,
+  pen: PenGlyph,
+};
+
 export default function WorkPage() {
   const reduce = useReducedMotion() ?? false;
   return (
@@ -38,7 +64,9 @@ export default function WorkPage() {
           </motion.span>
         </motion.p>
 
-        {content.experience.map((job) => (
+        {content.experience.map((job) => {
+          const Icon = ENTRY_ICONS[job.icon];
+          return (
           <section key={job.company} className="w-full">
             {/* Company row */}
             <motion.div
@@ -48,8 +76,19 @@ export default function WorkPage() {
               animate="visible"
               transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
             >
-              <a href={job.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
-                <img src={job.logo} alt="" width={24} height={24} draggable={false} className="size-6 transition-opacity hover:opacity-70 dark:invert" />
+              <a
+                href={job.url || undefined}
+                target={job.url ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="shrink-0"
+              >
+                {job.logo ? (
+                  <img src={job.logo} alt="" width={24} height={24} draggable={false} className="size-6 rounded-full transition-opacity hover:opacity-70 dark:invert" />
+                ) : (
+                  <span className="flex size-6 items-center justify-center rounded-full bg-neutral-100 font-mono text-xs text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400">
+                    {job.company.charAt(0)}
+                  </span>
+                )}
               </a>
               <div className="relative h-6 min-w-0 flex-1">
                 <a
@@ -63,12 +102,14 @@ export default function WorkPage() {
                 </a>
                 <span className="absolute right-0 top-1 hidden items-center whitespace-nowrap text-sm text-neutral-500 sm:flex dark:text-neutral-400">
                   {job.location}
-                  <span className="ml-1.5">{job.locationNote}</span>
-                  <span aria-hidden className="relative ml-2.5 inline-block size-2.5">
-                    <span className="absolute -inset-1 animate-ping rounded-full bg-foreground/10 motion-reduce:hidden" />
-                    <span className="absolute -inset-1 rounded-full bg-foreground/10" />
-                    <span className="absolute inset-[2px] rounded-full bg-foreground" />
-                  </span>
+                  {job.locationNote && <span className="ml-1.5">{job.locationNote}</span>}
+                  {job.end === null && (
+                    <span aria-hidden className="relative ml-2.5 inline-block size-2.5">
+                      <span className="absolute -inset-1 animate-ping rounded-full bg-foreground/10 motion-reduce:hidden" />
+                      <span className="absolute -inset-1 rounded-full bg-foreground/10" />
+                      <span className="absolute inset-[2px] rounded-full bg-foreground" />
+                    </span>
+                  )}
                 </span>
               </div>
             </motion.div>
@@ -101,20 +142,7 @@ export default function WorkPage() {
                 >
                   <div className="flex min-w-0 items-start gap-3">
                     <span className="relative flex size-6 shrink-0 items-center justify-center rounded-md bg-neutral-100 shadow-[0_0_0_1px_#ffffff,0_0_0_2px_rgba(228,228,231,0.5)] dark:bg-neutral-900 dark:shadow-[0_0_0_1px_#0a0a0a,0_0_0_2px_rgba(255,255,255,0.08)]">
-                      <svg
-                        viewBox="0 0 256 256"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={16}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="size-4 text-neutral-500"
-                        aria-hidden="true"
-                      >
-                        <polyline points="64 88 16 128 64 168" />
-                        <polyline points="192 88 240 128 192 168" />
-                        <line x1="160" y1="40" x2="96" y2="216" />
-                      </svg>
+                      <Icon className="size-4 text-neutral-500" aria-hidden="true" />
                     </span>
                     <p className="text-base font-medium leading-6 text-foreground">{job.role}</p>
                   </div>
@@ -137,8 +165,12 @@ export default function WorkPage() {
                   ) : (
                     <InfinityIcon className="size-[18px]" strokeWidth={1.333} />
                   )}
-                  <span aria-hidden className="h-4 w-px bg-neutral-300 dark:bg-neutral-700" />
-                  <span>{job.duration}</span>
+                  {job.duration && (
+                    <>
+                      <span aria-hidden className="h-4 w-px bg-neutral-300 dark:bg-neutral-700" />
+                      <span>{job.duration}</span>
+                    </>
+                  )}
                 </motion.div>
 
                 {/* Bullets */}
@@ -159,26 +191,29 @@ export default function WorkPage() {
                 </ul>
 
                 {/* Tags */}
-                <motion.div
-                  className="ml-9 mt-3 flex flex-wrap gap-1.5 pb-2"
-                  variants={FADE_UP}
-                  initial={reduce ? false : "hidden"}
-                  animate="visible"
-                  transition={{ duration: 0.45, ease: "easeOut", delay: 0.36 + job.highlights.length * 0.07 + 0.05 }}
-                >
-                  {job.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-neutral-100 px-1.5 py-0.5 font-mono text-xs leading-4 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </motion.div>
+                {job.tags.length > 0 && (
+                  <motion.div
+                    className="ml-9 mt-3 flex flex-wrap gap-1.5 pb-2"
+                    variants={FADE_UP}
+                    initial={reduce ? false : "hidden"}
+                    animate="visible"
+                    transition={{ duration: 0.45, ease: "easeOut", delay: 0.36 + job.highlights.length * 0.07 + 0.05 }}
+                  >
+                    {job.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-neutral-100 px-1.5 py-0.5 font-mono text-xs leading-4 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </motion.div>
+                )}
               </div>
             </div>
           </section>
-        ))}
+          );
+        })}
         </div>
       </div>
     </main>
