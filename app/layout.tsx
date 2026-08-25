@@ -26,7 +26,7 @@ const overusedGrotesk = localFont({
 });
 
 export const metadata: Metadata = {
-  title: content.name,
+  title: "Iamshakibali | Design Engineer",
   description: content.subtext,
   icons: {
     icon: [
