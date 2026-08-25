@@ -4,6 +4,7 @@ import "./globals.css";
 import { content } from "@/lib/content";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DockBar } from "@/components/DockBar";
+import { SiteShell } from "@/components/SiteShell";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -47,7 +48,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${overusedGrotesk.variable}`}>
       <body className="antialiased font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <SiteShell>{children}</SiteShell>
           <DockBar />
         </ThemeProvider>
       </body>

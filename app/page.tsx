@@ -2,11 +2,9 @@
 
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
-import { CoordinateProvider, useCoordinates } from "@/components/Hero/CoordinateTracker";
 import { GitHubHoverCard } from "@/components/Hero/GitHubHoverCard";
 import { XHoverCard } from "@/components/Hero/XHoverCard";
 import { LinkedInHoverCard } from "@/components/Hero/LinkedInHoverCard";
-import { HeaderBar } from "@/components/Hero/HeaderBar";
 import { LogoBadge } from "@/components/Hero/LogoBadge";
 import { WelcomeGate } from "@/components/WelcomeGate";
 import { useWelcomeDone } from "@/components/WelcomeDoneContext";
@@ -23,7 +21,6 @@ const FADE_UP = {
 };
 
 function HeroContent() {
-  const { handleMouseMove } = useCoordinates();
   const welcomeDone = useWelcomeDone();
   const [pillHovered, setPillHovered] = useState<"x" | "gh" | "li" | null>(null);
   const [pillOffset, setPillOffset] = useState(0);
@@ -88,14 +85,9 @@ function HeroContent() {
 
   return (
     <div
-      className="relative flex min-h-screen flex-col bg-background text-foreground"
-      onMouseMove={(e) => {
-        handleMouseMove(e);
-        handleSigMagnetic(e);
-      }}
+      className="relative flex flex-1 flex-col bg-background text-foreground"
+      onMouseMove={handleSigMagnetic}
     >
-      <HeaderBar />
-
       <div className="flex flex-1 flex-col items-center justify-start px-6 pb-20 pt-16">
         <div className="flex w-full max-w-[540px] flex-col items-start text-left">
         <motion.svg
@@ -397,10 +389,8 @@ function HeroContent() {
 
 export default function Home() {
   return (
-    <CoordinateProvider>
-      <WelcomeGate>
-        <HeroContent />
-      </WelcomeGate>
-    </CoordinateProvider>
+    <WelcomeGate>
+      <HeroContent />
+    </WelcomeGate>
   );
 }

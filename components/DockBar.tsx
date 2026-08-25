@@ -95,8 +95,8 @@ function SkillsGlyph(props: SVGProps<SVGSVGElement>) {
 const NAV = [
   { label: "Home", href: "/", Icon: HomeGlyph },
   { label: "Work", href: "/work", Icon: WorkGlyph },
-  { label: "Playground", href: "/playground", Icon: PlaygroundGlyph },
-  { label: "Skills", href: "/skills", Icon: SkillsGlyph },
+  { label: "Craft", href: "/playground", Icon: PlaygroundGlyph },
+  { label: "Stack", href: "/skills", Icon: SkillsGlyph },
 ];
 
 export function DockBar() {
