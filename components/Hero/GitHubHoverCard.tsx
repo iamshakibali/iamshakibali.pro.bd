@@ -2,17 +2,24 @@
 
 import { NumberTicker } from "@/components/motion/number";
 
+const GAP = 3;
+const COLS = 24;
+// hero-sized cells — fills the 290px card's 258px content width (16px padding)
+const CELL = (290 - 32 - (COLS - 1) * GAP) / COLS;
+
 const GRID: string[] = [
-  "#e5e5e5 #00bc7d #5ee9b5 #5ee9b5 #5ee9b5 #5ee9b5 #5ee9b5 #e5e5e5 #5ee9b5 #5ee9b5 #5ee9b5 #5ee9b5",
-  "#096 #00bc7d #096 #5ee9b5 #00bc7d #00bc7d #5ee9b5 #5ee9b5 #5ee9b5 #00bc7d #00bc7d #5ee9b5",
-  "#e5e5e5 #5ee9b5 #e5e5e5 #5ee9b5 #5ee9b5 #5ee9b5 #00bc7d #e5e5e5 #5ee9b5 #00bc7d #00bc7d #00bc7d",
-  "#5ee9b5 #096 #5ee9b5 #5ee9b5 #5ee9b5 #e5e5e5 #096 #00bc7d #096 #00bc7d #5ee9b5 #00bc7d",
-  "#e5e5e5 #e5e5e5 #096 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #096 #e5e5e5 #e5e5e5 #e5e5e5 #e5e5e5",
+  "#e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #00bc7d #e5e5e5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #e5e5e5 #e5e5e5 #00bc7d #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5",
+  "#5ee9b5 #096 #5ee9b5 #e5e5e5 #00bc7d #5ee9b5 #e5e5e5 #00bc7d #00bc7d #5ee9b5 #00bc7d #e5e5e5 #5ee9b5 #00bc7d #5ee9b5 #e5e5e5 #096 #00bc7d #5ee9b5 #e5e5e5 #5ee9b5 #00bc7d #e5e5e5 #5ee9b5",
+  "#00bc7d #5ee9b5 #096 #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #096 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #00bc7d #5ee9b5 #5ee9b5 #096 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5",
+  "#5ee9b5 #00bc7d #5ee9b5 #00bc7d #e5e5e5 #096 #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #00bc7d #5ee9b5 #096 #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #00bc7d #5ee9b5",
+  "#00bc7d #5ee9b5 #5ee9b5 #096 #5ee9b5 #e5e5e5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #e5e5e5 #5ee9b5 #096 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #00bc7d",
+  "#5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #00bc7d #00bc7d #5ee9b5 #5ee9b5 #096 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d",
+  "#e5e5e5 #00bc7d #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #00bc7d #e5e5e5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #00bc7d #e5e5e5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #e5e5e5",
 ];
 
 export function GitHubHoverCard() {
   return (
-    <div className="flex h-[175px] w-[290px] flex-col items-start justify-between rounded-[12px] bg-white p-[16px] shadow-[0px_53px_79px_rgba(0,0,0,0.1)] dark:bg-zinc-900">
+    <div className="flex h-[106px] w-full flex-col items-start">
       <div className="flex w-full items-center justify-between">
         <span className="size-[20px] shrink-0 text-[#525252] dark:text-white">
           <svg
@@ -34,13 +41,16 @@ export function GitHubHoverCard() {
           <span className="font-normal text-[#737373] dark:text-zinc-400"> contributions in 2026</span>
         </p>
       </div>
-      <div className="grid w-full grid-cols-12 gap-1 pt-3">
+      <div
+        className="grid w-full pt-3"
+        style={{ gridTemplateColumns: `repeat(${COLS}, ${CELL}px)`, gap: GAP }}
+      >
         {GRID.flatMap((row, ri) =>
           row.split(/\s+/).filter(Boolean).map((color, i) => (
             <div
               key={`${ri}-${i}`}
-              className="aspect-square w-full rounded-[3px]"
-              style={{ background: color }}
+              className="rounded-[2px]"
+              style={{ width: CELL, height: CELL, background: color }}
             />
           )),
         )}
