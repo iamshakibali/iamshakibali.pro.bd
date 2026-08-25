@@ -12,4 +12,25 @@ export const content = {
     { label: "LinkedIn", url: "https://www.linkedin.com/in/imahskaibali" },
     { label: "GitHub", url: "https://github.com/imahskaibali" },
   ],
+  experience: [
+    {
+      company: "Vivetica AG",
+      url: "https://viveticacapital.ch",
+      logo: "/badges/vivetica-mark.svg",
+      location: "Zürich, Switzerland",
+      locationNote: "(Remote)",
+      role: "Product Design Engineer",
+      type: "Part-time",
+      start: "01.2026",
+      end: null, // present
+      duration: "8m",
+      highlights: [
+        "Develop production-ready frontends and hand off to backend teams.",
+        "Design and build marketing websites for company products.",
+        "Design and build Pro components/blocks, from\nFigma to production-ready React.",
+        "Create and maintain design systems that\nscale across multiple products.",
+      ],
+      tags: ["React", "TypeScript", "Next.js", "Design System", "Figma", "UX"],
+    },
+  ],
 } as const;

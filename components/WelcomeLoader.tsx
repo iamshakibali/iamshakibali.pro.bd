@@ -48,7 +48,7 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
         }
         return i + 1;
       });
-    }, 300);
+    }, 360);
     return () => clearInterval(id);
   }, [reduce]);
 
@@ -77,30 +77,29 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
     >
       {phase === "words" || !path ? (
         <div className="relative flex h-full w-full items-center justify-center">
-          {/* fade in/out through a blurred midpoint — mode="wait" fully removes
-              the outgoing word before the next unblurs in, so no overlap */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`word-${HELLOS[index]}`}
-              initial={{ opacity: 0, y: 32, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -32, filter: "blur(6px)" }}
-              transition={{
-                duration: 0.08,
-                ease: EASE_OUT,
-                filter: { duration: 0.09, ease: "easeOut" },
-              }}
-              className="flex items-center gap-3"
-            >
-              <span
-                aria-hidden="true"
-                className="size-[5px] shrink-0 rounded-full bg-foreground"
-              />
-              <span className="whitespace-nowrap text-[20px] font-medium leading-[1.2] tracking-tight text-foreground md:text-[24px]">
-                {HELLOS[index]}
-              </span>
-            </motion.div>
-          </AnimatePresence>
+          {/* masked roll: outgoing and incoming words travel together inside a
+              text-sized overflow-hidden window, so the swap reads as one
+              continuous motion — no blur, movement + blur reads as a smear */}
+          <div className="relative flex h-[32px] w-full items-center justify-center overflow-hidden">
+            <AnimatePresence>
+              <motion.div
+                key={`word-${HELLOS[index]}`}
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -32 }}
+                transition={{ duration: 0.28, ease: EASE_OUT }}
+                className="absolute inset-0 flex items-center justify-center gap-3"
+              >
+                <span
+                  aria-hidden="true"
+                  className="size-[5px] shrink-0 rounded-full bg-foreground"
+                />
+                <span className="whitespace-nowrap text-[20px] font-medium leading-[1.2] tracking-tight text-foreground md:text-[24px]">
+                  {HELLOS[index]}
+                </span>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       ) : (
         <motion.svg

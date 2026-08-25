@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Image (shadcncraft logo)">
+<g clip-path="url(#clip0_0_13)">
+<path id="Vector" d="M0 0H24V24H0V0Z" fill="#18181B"/>
+<path id="Vivetica" d="M11.5394 19L6.95 8.42794C6.63485 7.71422 6.32626 7.21716 6.02424 6.93676C5.73535 6.64363 5.39394 6.47157 5 6.42059V6.03823C5.05253 6.03823 5.18384 6.03186 5.39394 6.01912C5.59091 6.00637 5.73535 6 5.82727 6C6.28687 6 6.75303 6.05098 7.22576 6.15294C7.71162 6.2549 8.17121 6.47794 8.60455 6.82206C9.03788 7.16618 9.41212 7.70147 9.72727 8.42794L12.8394 15.5779L16.9955 6.19118H18L12.3273 19H11.5394Z" fill="white"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_13">
+<path d="M0 12C0 5.37258 5.37258 0 12 0V0C18.6274 0 24 5.37258 24 12V12C24 18.6274 18.6274 24 12 24V24C5.37258 24 0 18.6274 0 12V12Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>
