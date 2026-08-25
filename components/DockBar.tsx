@@ -122,7 +122,7 @@ export function DockBar() {
             (white pill + 44/72.5 drop shadow), dark keeps the #2a2a2a surface */}
         <Dock
           size={49}
-          className="rounded-full border-0 bg-white shadow-[0_44px_72.5px_rgba(0,0,0,0.15)] dark:bg-[#2a2a2a]"
+          className="rounded-full border-0 bg-white px-4 shadow-[0_44px_72.5px_rgba(0,0,0,0.15)] dark:bg-[#1d1d1d]"
         >
           {NAV.map(({ label, href, Icon }) => {
             const active = pathname === href;

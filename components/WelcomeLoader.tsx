@@ -77,28 +77,30 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
     >
       {phase === "words" || !path ? (
         <div className="relative flex h-full w-full items-center justify-center">
-          {/* masked roll: incoming/outgoing words share one grid cell and roll
-              ±32px, so they never overlap — the line-height box clips the roll */}
-          <div className="grid overflow-hidden">
-            <AnimatePresence initial={false}>
-              <motion.div
-                key={`word-${HELLOS[index]}`}
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -32 }}
-                transition={{ duration: 0.28, ease: EASE_OUT }}
-                className="col-start-1 row-start-1 flex items-center gap-3"
-              >
-                <span
-                  aria-hidden="true"
-                  className="size-[5px] shrink-0 rounded-full bg-foreground"
-                />
-                <span className="text-[20px] font-medium leading-[1.2] tracking-tight text-foreground md:text-[24px]">
-                  {HELLOS[index]}
-                </span>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+          {/* fade in/out through a blurred midpoint — mode="wait" fully removes
+              the outgoing word before the next unblurs in, so no overlap */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`word-${HELLOS[index]}`}
+              initial={{ opacity: 0, filter: "blur(6px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, filter: "blur(6px)" }}
+              transition={{
+                duration: 0.11,
+                ease: EASE_OUT,
+                filter: { duration: 0.12, ease: "easeOut" },
+              }}
+              className="flex items-center gap-3"
+            >
+              <span
+                aria-hidden="true"
+                className="size-[5px] shrink-0 rounded-full bg-foreground"
+              />
+              <span className="whitespace-nowrap text-[20px] font-medium leading-[1.2] tracking-tight text-foreground md:text-[24px]">
+                {HELLOS[index]}
+              </span>
+            </motion.div>
+          </AnimatePresence>
         </div>
       ) : (
         <motion.svg
@@ -109,6 +111,7 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
           aria-label="Shakib signature"
           initial={{
             opacity: 0,
+            filter: "blur(6px)",
             x: path.startX,
             y: path.startY,
             scale: 1,
@@ -117,6 +120,7 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
             phase === "moving"
               ? {
                   opacity: 1,
+                  filter: "blur(0px)",
                   x: path.endX,
                   y: path.endY,
                   scale: path.endScale,
@@ -124,10 +128,15 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
                 }
               : {
                   opacity: 1,
+                  filter: "blur(0px)",
                   x: path.startX,
                   y: path.startY,
                   scale: 1,
-                  transition: { duration: 0.45, ease: "easeOut" },
+                  transition: {
+                    duration: 0.45,
+                    ease: "easeOut",
+                    filter: { duration: 0.5, ease: "easeOut" },
+                  },
                 }
           }
           onAnimationComplete={handleAnimationComplete}
