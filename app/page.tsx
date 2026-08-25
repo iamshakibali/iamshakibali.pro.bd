@@ -11,6 +11,7 @@ import { useWelcomeDone } from "@/components/WelcomeDoneContext";
 import { Button, ButtonLink } from "@/components/motion/button";
 import { ActionSwapCascadeText, ActionSwapIcon } from "@/components/motion/action-swap";
 import { TextScramble } from "@/components/motion/text-scramble";
+import { ContributionGraph } from "@/components/ContributionGraph";
 
 const GH_CARD_W = 290;
 const GH_CARD_HALF = GH_CARD_W / 2;
@@ -127,9 +128,9 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
-          className="mt-4 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Based in Bangladesh, working globally. I started with design, but my curiosity about how things work pulled me toward code.</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Based in Bangladesh, working globally. I started with design, but my curiosity{"\n"}about how things work pulled me toward code.</span>
         </motion.p>
 
         <motion.p
@@ -137,7 +138,7 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
-          className="mt-6 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mt-6 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Design Engineer at{" "}</span>
           <LogoBadge id="vivetica" label="Vivetica" src="/badges/company-logo.svg" href="https://viveticacapital.ch" videoSrc="/badges/vivetica.mp4" width={290} imgClassName="dark:invert" active={logoHovered === "vivetica"} dimmed={logoHovered !== null && logoHovered !== "vivetica"} onHoverChange={setLogoHovered}>
@@ -145,7 +146,7 @@ function HeroContent() {
               <img src="/badges/company-logo.svg" alt="Vivetica" draggable={false} className="h-[13px] w-[74px] dark:invert" />
             </span>
           </LogoBadge>{" "}
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, building design frameworks and systems.</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, building design{"\n"}frameworks and systems.</span>
         </motion.p>
 
         <motion.p
@@ -153,9 +154,9 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.19 }}
-          className="mt-4 max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400 md:whitespace-nowrap"
+          className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Previously, I worked a Sr Product Designer at{" "}</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>I worked a Sr Product Designer at{" "}</span>
           <LogoBadge id="orbix" label="Orbix Studio" src="/badges/orbix.png" href="https://www.orbix.studio/" videoSrc="/badges/orbix.mp4" width={290} active={logoHovered === "orbix"} dimmed={logoHovered !== null && logoHovered !== "orbix"} onHoverChange={setLogoHovered}>
             <span className="whitespace-nowrap">
               <span className="mx-[1px] inline-block size-[21px] align-middle">
@@ -173,16 +174,7 @@ function HeroContent() {
               <span className="font-medium text-black dark:text-white">ScreensDesign</span>
             </span>
           </LogoBadge>
-        </motion.p>
-
-        <motion.p
-          variants={FADE_UP}
-          initial={reduce ? false : "hidden"}
-          animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.26 }}
-          className="max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
-        >
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Outside of work, I build and open-source apps like{" "}</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>{"\n"}Outside of work, I build and open-source apps like{" "}</span>
           <LogoBadge id="pintop" label="Pintop" src="/badges/pintop.png" href="https://github.com/iamshakibali/pin-top" popup={false} active={logoHovered === "pintop"} dimmed={logoHovered !== null && logoHovered !== "pintop"} onHoverChange={setLogoHovered}>
             <span className="whitespace-nowrap">
               <span className="mx-[1px] inline-block h-[21px] w-[21px] align-middle">
@@ -191,7 +183,7 @@ function HeroContent() {
               <span className="font-medium text-black dark:text-white">Pintop</span>
             </span>
           </LogoBadge>
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, and love contributing to open-source projects.</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, and{"\n"}love contributing to open-source projects.</span>
         </motion.p>
 
         <div ref={pillRowRef} className="relative mt-8">
@@ -381,6 +373,16 @@ function HeroContent() {
           )}
         </AnimatePresence>
         </div>
+
+        <motion.div
+          variants={FADE_UP}
+          initial={reduce ? false : "hidden"}
+          animate={welcomeDone ? "visible" : "hidden"}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.33 }}
+          className="mt-10 w-full"
+        >
+          <ContributionGraph />
+        </motion.div>
         </div>
       </div>
     </div>
