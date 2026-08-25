@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { preload } from "react-dom";
 import "./globals.css";
 import { content } from "@/lib/content";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -31,6 +32,17 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Hero images as head preloads: the welcome gate hides content with
+  // visibility:hidden (loads start but unprioritized), so on a cold cache
+  // images could still be fetching when the loader lifts and pop in late.
+  preload("/avatar.gif", { as: "image" });
+  preload("/badges/company-logo.svg", { as: "image" });
+  preload("/badges/orbix.png", { as: "image" });
+  preload("/badges/screens.png", { as: "image" });
+  preload("/badges/pintop.png", { as: "image" });
+  preload("/x-avatar.png", { as: "image" });
+  preload("/linkedin-avatar.png", { as: "image" });
+
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${overusedGrotesk.variable}`}>
       <body className="antialiased font-sans">
