@@ -5,9 +5,14 @@ import { AnimatePresence } from "motion/react";
 import { WelcomeLoader } from "@/components/WelcomeLoader";
 import { WelcomeDoneContext } from "@/components/WelcomeDoneContext";
 
+// module scope: survives client-side route changes but resets on a real page
+// load — the loader plays once per load, not again when the dock navigates
+// back to Home (which remounts this gate and otherwise reads as a refresh)
+let playedThisLoad = false;
+
 export function WelcomeGate({ children }: { children: React.ReactNode }) {
   // intentional: the welcome loader plays on every page load
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(!playedThisLoad);
 
   useEffect(() => {
     if (!show) return;
@@ -20,7 +25,10 @@ export function WelcomeGate({ children }: { children: React.ReactNode }) {
     };
   }, [show]);
 
-  const handleComplete = () => setShow(false);
+  const handleComplete = () => {
+    playedThisLoad = true;
+    setShow(false);
+  };
 
   return (
     <WelcomeDoneContext.Provider value={!show}>
