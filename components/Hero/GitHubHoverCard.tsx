@@ -7,14 +7,24 @@ const COLS = 24;
 // hero-sized cells — fills the 290px card's 258px content width (16px padding)
 const CELL = (290 - 32 - (COLS - 1) * GAP) / COLS;
 
+// same level palette as the hero graph (components/ContributionGraph.tsx)
+const LEVEL_BG = [
+  "bg-neutral-200 dark:bg-[#181818]",
+  "bg-neutral-300 dark:bg-[#333]",
+  "bg-neutral-400 dark:bg-[#666]",
+  "bg-neutral-500 dark:bg-[#adadad]",
+  "bg-neutral-900 dark:bg-white",
+];
+
+// mostly quiet with sparse activity + one hot streak, like the real graph
 const GRID: string[] = [
-  "#e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #00bc7d #e5e5e5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #e5e5e5 #e5e5e5 #00bc7d #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5",
-  "#5ee9b5 #096 #5ee9b5 #e5e5e5 #00bc7d #5ee9b5 #e5e5e5 #00bc7d #00bc7d #5ee9b5 #00bc7d #e5e5e5 #5ee9b5 #00bc7d #5ee9b5 #e5e5e5 #096 #00bc7d #5ee9b5 #e5e5e5 #5ee9b5 #00bc7d #e5e5e5 #5ee9b5",
-  "#00bc7d #5ee9b5 #096 #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #096 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #00bc7d #5ee9b5 #5ee9b5 #096 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5",
-  "#5ee9b5 #00bc7d #5ee9b5 #00bc7d #e5e5e5 #096 #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #00bc7d #5ee9b5 #096 #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #00bc7d #5ee9b5",
-  "#00bc7d #5ee9b5 #5ee9b5 #096 #5ee9b5 #e5e5e5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #e5e5e5 #5ee9b5 #096 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #00bc7d",
-  "#5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #00bc7d #00bc7d #5ee9b5 #5ee9b5 #096 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d #5ee9b5 #5ee9b5 #00bc7d",
-  "#e5e5e5 #00bc7d #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #00bc7d #e5e5e5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #00bc7d #e5e5e5 #e5e5e5 #e5e5e5 #5ee9b5 #e5e5e5 #e5e5e5 #e5e5e5",
+  "0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
+  "0 1 0 0 0 0 0 0 2 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0",
+  "0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0",
+  "1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 4 0 0 0 0 0 0 0",
+  "0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 3 0 0 0 0 1 0 0",
+  "0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 4 0 0 0 0 0 0 0",
+  "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
 ];
 
 export function GitHubHoverCard() {
@@ -46,11 +56,11 @@ export function GitHubHoverCard() {
         style={{ gridTemplateColumns: `repeat(${COLS}, ${CELL}px)`, gap: GAP }}
       >
         {GRID.flatMap((row, ri) =>
-          row.split(/\s+/).filter(Boolean).map((color, i) => (
+          row.split(/\s+/).filter(Boolean).map((level, i) => (
             <div
               key={`${ri}-${i}`}
-              className="rounded-[2px]"
-              style={{ width: CELL, height: CELL, background: color }}
+              className={`rounded-[2px] ${LEVEL_BG[Number(level)]}`}
+              style={{ width: CELL, height: CELL }}
             />
           )),
         )}
