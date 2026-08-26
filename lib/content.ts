@@ -147,6 +147,7 @@ export const content = {
         { name: "ChatGPT", icon: "chatgpt" },
         { name: "Git", icon: "git" },
         { name: "GitHub", icon: "github" },
+        { name: "VS Code", icon: "vscode" },
         { name: "Docker", icon: "docker" },
         { name: "Vercel", icon: "vercel" },
       ],
