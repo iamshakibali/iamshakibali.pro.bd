@@ -92,11 +92,12 @@ function SkillsGlyph(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+// `disabled: true` keeps the item visible but non-navigable (unavailable)
 const NAV = [
   { label: "Home", href: "/", Icon: HomeGlyph },
   { label: "Work", href: "/work", Icon: WorkGlyph },
-  { label: "Craft", href: "/playground", Icon: PlaygroundGlyph },
-  { label: "Stack", href: "/skills", Icon: SkillsGlyph },
+  { label: "Craft", href: "/playground", Icon: PlaygroundGlyph, disabled: true },
+  { label: "Stack", href: "/skills", Icon: SkillsGlyph, disabled: true },
 ];
 
 export function DockBar() {
@@ -118,14 +119,30 @@ export function DockBar() {
       transition={{ duration: 0.45, ease: "easeOut", delay: welcomeDone === undefined ? 0 : 0.7 }}
     >
       <div className="pointer-events-auto">
-        {/* border-0: site is fill-only; light skin per Shakib's .container export
-            (white pill + 44/72.5 drop shadow), dark keeps the #2a2a2a surface */}
+        {/* glass dock per Figma: blur + translucent bordered pill; dark glass
+            in dark mode, light glass in light mode so the pill reads on either */}
         <Dock
           size={49}
-          className="rounded-full border-0 bg-white px-4 shadow-[0_44px_72.5px_rgba(0,0,0,0.15)] dark:bg-[#1d1d1d]"
+          className="rounded-full border border-[rgba(0,0,0,0.08)] bg-white/70 px-4 shadow-[0px_20px_40px_-12px_rgba(0,0,0,0.2),0px_10px_20px_-8px_rgba(0,0,0,0.12)] backdrop-blur-[16px] dark:border-[rgba(39,39,42,0.5)] dark:bg-[#141414]/85 dark:shadow-[0px_20px_40px_-12px_rgba(0,0,0,0.35),0px_10px_20px_-8px_rgba(0,0,0,0.2)]"
         >
-          {NAV.map(({ label, href, Icon }) => {
+          {NAV.map(({ label, href, Icon, disabled }) => {
             const active = pathname === href;
+            // disabled items stay visible but render as a plain span — no
+            // navigation, dimmed, with a not-allowed cursor + tooltip
+            if (disabled) {
+              return (
+                <DockItem key={href}>
+                  <span
+                    title="Coming soon"
+                    aria-disabled="true"
+                    className="flex size-full cursor-not-allowed flex-col items-center justify-center gap-[3px] text-neutral-400/70 opacity-60 dark:text-neutral-500/70"
+                  >
+                    <Icon className="size-[18px]" strokeWidth={1.5} aria-hidden />
+                    <span className="whitespace-nowrap text-[10px] leading-none">{label}</span>
+                  </span>
+                </DockItem>
+              );
+            }
             return (
               <DockItem key={href}>
                 <Link
@@ -133,8 +150,8 @@ export function DockBar() {
                   aria-current={active ? "page" : undefined}
                   className={`flex size-full flex-col items-center justify-center gap-[3px] transition-colors ${
                     active
-                      ? "text-foreground"
-                      : "text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+                      ? "text-black dark:text-white"
+                      : "text-neutral-600 hover:text-black dark:bg-transparent dark:text-neutral-400 dark:hover:text-white"
                   }`}
                 >
                   <Icon className="size-[18px]" strokeWidth={1.5} aria-hidden />
