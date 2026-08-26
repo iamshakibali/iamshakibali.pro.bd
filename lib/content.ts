@@ -7,10 +7,9 @@ export const content = {
   email: "hello@imahskaibali.com",
   resumeUrl: "/resume.pdf",
   socials: [
-    { label: "Dribbble", url: "https://dribbble.com/imahskaibali" },
-    { label: "X", url: "https://x.com/imahskaibali" },
-    { label: "LinkedIn", url: "https://www.linkedin.com/in/imahskaibali" },
-    { label: "GitHub", url: "https://github.com/imahskaibali" },
+    { label: "Claude", url: "https://claude.ai/new?q=Who%20is%20iamshakibali%3F%20Search%20the%20web%20and%20give%20a%20summary%20of%20who%20they%20are%2C%20their%20work%2C%20and%20their%20website%20iamshakibali.pro.bd" },
+    { label: "YouTube", url: "https://youtube.com/@iamshakibali" },
+    { label: "ChatGPT", url: "https://chatgpt.com/?q=Who%20is%20iamshakibali%3F%20Search%20the%20web%20and%20give%20a%20summary%20of%20who%20they%20are%2C%20their%20work%2C%20and%20their%20website%20iamshakibali.pro.bd" },
   ],
   experience: [
     {
@@ -95,6 +94,42 @@ export const content = {
         "Added features and UX enhancements to\n[[Boost App Social|https://apps.apple.com/us/app/boost-app-social/id1551991915]], doubling revenue.",
       ],
       tags: ["App Design", "SaaS", "UX", "Figma", "HTML", "CSS"],
+    },
+  ],
+  projects: [
+    {
+      name: "Vivetica",
+      description: "Infrastructure and growth in\nEurope. — Design & Frontend",
+      image: "/projects/vivetica.png",
+      url: "https://vivetica.vercel.app/",
+      note: null,
+    },
+    {
+      name: "VisualPillar",
+      description: "Full Cycle design agency in BD\n— Design & Frontend",
+      image: "/projects/placeholder.png",
+      url: "#",
+      note: "In Development",
+    },
+  ],
+  archive: [
+    {
+      year: "2026",
+      name: "TRH CGI",
+      description: "Portfolio for a Paris CGI studio.",
+      url: "https://github.com/iamshakibali/thr-cgi-c",
+    },
+    {
+      year: "2026",
+      name: "Pintop",
+      description: "Pin any window always-on-top on macOS.",
+      url: "https://github.com/iamshakibali/pin-top",
+    },
+    {
+      year: "2026",
+      name: "Vucko",
+      description: "Creative agency site built around motion.",
+      url: "https://github.com/iamshakibali/Vucko",
     },
   ],
 } as const;
