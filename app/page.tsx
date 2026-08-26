@@ -130,7 +130,7 @@ function HeroContent() {
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
           className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Based in Bangladesh, working globally. I started with design, but my curiosity{"\n"}about how things work pulled me toward code.</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Based in Bangladesh, working globally. I started with design, but my{"\n"}curiosity about how things work pulled me toward code.</span>
         </motion.p>
 
         <motion.p
@@ -146,7 +146,7 @@ function HeroContent() {
               <img src="/badges/company-logo.svg" alt="Vivetica" draggable={false} className="h-[13px] w-[74px] dark:invert" />
             </span>
           </LogoBadge>{" "}
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, building design{"\n"}frameworks and systems.</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}> building{"\n"}design frameworks and systems.</span>
         </motion.p>
 
         <motion.p
@@ -188,16 +188,19 @@ function HeroContent() {
 
         <div ref={pillRowRef} className="relative mt-8">
         <motion.div
-          layout
           className="flex flex-wrap gap-1"
           initial={reduce ? false : { opacity: 0, y: 10 }}
           animate={welcomeDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 + (welcomeDone ? 0 : 0.4) }}
         >
-          <motion.div layout transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.6 }}>
+          <div>
             <Button
               variant="pill"
               size="pill"
+              layout
+              // Motion's border-radius projection only engages for radii set
+              // via style — the class alone leaves the caps elliptical mid-FLIP
+              style={{ borderRadius: "13.5px" }}
               onClick={async () => {
                 try {
                   await navigator.clipboard.writeText("shakibaliuix@proton.me");
@@ -219,7 +222,8 @@ function HeroContent() {
                         <path
                         d="M1.5 4.5L3.6 6.6L7.5 2.1"
                         stroke="currentColor"
-                        strokeWidth="1"
+                        // 9-unit viewBox renders at 13px (×1.44) — 0.7 ≈ 1px on screen
+                        strokeWidth="0.7"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
@@ -246,7 +250,7 @@ function HeroContent() {
               </span>
               <ActionSwapCascadeText value={mailCopied ? "Copied!" : "shakibaliuix@proton.me"} />
             </Button>
-          </motion.div>
+          </div>
           <motion.div
             layout="position"
             transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.6 } as any}

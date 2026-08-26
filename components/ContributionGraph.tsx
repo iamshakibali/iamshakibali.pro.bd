@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { NumberTicker } from "@/components/motion/number";
+import { useWelcomeDone } from "@/components/WelcomeDoneContext";
 
 // month labels for the x-axis — approximate guide; the real data span is close
 const MONTHS = [
@@ -40,6 +42,7 @@ function countToLevel(count: number): number {
 }
 
 export function ContributionGraph() {
+  const welcomeDone = useWelcomeDone();
   const [data, setData] = useState<{
     weeks: { count: number; label: string }[][];
     months: { label: string; week: number }[];
@@ -145,6 +148,8 @@ export function ContributionGraph() {
   }
 
   const total = data?.total ?? 0;
+  // "Aug 7, 2026" → month / day / year so the date digits can roll too
+  const dateParts = hover?.label.match(/^(\S+) (\d+), (\d+)$/);
 
   return (
     <div className="w-full select-none">
@@ -191,9 +196,37 @@ export function ContributionGraph() {
         </div>
       </div>
       <p className="mt-[9px] font-mono text-[10px] text-neutral-500 dark:text-neutral-400">
-        {hover
-          ? `${hover.count} ${hover.count === 1 ? "contribution" : "contributions"} on ${hover.label}`
-          : `${total} contributions in the last year`}
+        {welcomeDone ? (
+          <>
+            {/* mounted only after the loader so the roll isn't spent behind it;
+                stays mounted so hover-out rolls back instead of replaying */}
+            <NumberTicker
+              value={hover ? hover.count : total}
+              suffix={
+                hover
+                  ? ` ${hover.count === 1 ? "contribution" : "contributions"} on`
+                  : " contributions in the last year"
+              }
+              className="align-middle"
+            />
+            {hover &&
+              (dateParts ? (
+                <>
+                  {" "}
+                  {dateParts[1]}{" "}
+                  <NumberTicker value={Number(dateParts[2])} className="align-middle" />
+                  {", "}
+                  <NumberTicker value={Number(dateParts[3])} className="align-middle" />
+                </>
+              ) : (
+                ` ${hover.label}`
+              ))}
+          </>
+        ) : hover ? (
+          `${hover.count} ${hover.count === 1 ? "contribution" : "contributions"} on ${hover.label}`
+        ) : (
+          `${total} contributions in the last year`
+        )}
       </p>
     </div>
   );

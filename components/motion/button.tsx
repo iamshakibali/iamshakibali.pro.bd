@@ -51,7 +51,7 @@ const SIZE_CLASS: Record<ButtonSize, string> = {
   md: "h-10 px-5 text-sm gap-2 rounded-full",
   lg: "h-12 px-6 text-base gap-2 rounded-full",
   icon: "h-8 w-8 rounded-lg",
-  pill: "h-auto px-[12px] py-[4px] text-[14px] leading-[20px] tracking-[-0.28px] gap-0 rounded-full font-normal",
+  pill: "h-auto px-[12px] py-[4px] text-[14px] leading-[20px] tracking-[-0.28px] gap-0 rounded-[13.5px] font-normal",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

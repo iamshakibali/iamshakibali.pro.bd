@@ -2,8 +2,9 @@
 
 import { content } from "@/lib/content";
 import { Infinity as InfinityIcon } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { TextScramble } from "@/components/motion/text-scramble";
+import { ProgressiveBlur } from "@/registry/magicui/progressive-blur";
 
 // same entrance the hero description uses
 const FADE_UP = {
@@ -59,9 +60,14 @@ function renderHighlight(h: string) {
 
 export default function WorkPage() {
   const reduce = useReducedMotion() ?? false;
+  const { scrollYProgress } = useScroll();
+  const pb = useTransform(scrollYProgress, [0.2, 1], ["40px", "300px"]);
   return (
     <main className="flex flex-1 flex-col items-center justify-start bg-background text-foreground">
-      <div className="flex w-full flex-1 flex-col items-center justify-start px-6 pb-20 pt-16">
+      <motion.div
+  className="relative flex w-full flex-1 flex-col items-center justify-start px-6 pt-16"
+  style={{ paddingBottom: pb }}
+>
         <div className="flex w-full max-w-[540px] flex-col gap-[25px]">
         {/* Heading — hero greeting treatment, bumped a size; fades up + unblurs
             on mount, so it plays when arriving via the dock */}
@@ -235,7 +241,14 @@ export default function WorkPage() {
           );
         })}
         </div>
-      </div>
+      </motion.div>
+{/* progressive blur at the bottom — exact mask values from magicui */}
+<ProgressiveBlur
+ position="bottom"
+ height="180px"
+ className="fixed"
+ blurLevels={[0.5, 1, 2, 4, 8, 16, 24, 32]}
+ />
     </main>
   );
 }

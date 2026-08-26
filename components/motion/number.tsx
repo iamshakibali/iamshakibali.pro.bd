@@ -90,29 +90,71 @@ export function NumberTicker({
     >
       <span className="sr-only">{readableText}</span>
       <span aria-hidden="true" className="inline-flex items-center">
-        {prefix ? <span>{prefix}</span> : null}
-        {glyphs.map(({ char, id }, i) => {
-          const isDigit = /\d/.test(char);
-          if (!isDigit) {
+        {/* same 1.1em centered box as Digit rows, so glyphs like "+" share the
+            digits' optical center instead of riding the surrounding line box;
+            whitespace-pre keeps leading spaces alive (flex boxes trim them) */}
+        {prefix ? (
+          <span
+            className="flex items-center leading-none"
+            style={{ height: `${DIGIT_HEIGHT_EM}em` }}
+          >
+            <span className="whitespace-pre">{prefix}</span>
+          </span>
+        ) : null}
+        {/^\d+$/.test(text) ? (
+          // explicit width so a changing digit count glides the surrounding
+          // text instead of snapping it; overflow-hidden reveals wider numbers
+          // as the box opens rather than overlapping the suffix
+          <motion.span
+            className="inline-flex items-center overflow-hidden"
+            animate={{ width: `${text.length}ch` }}
+            transition={{ duration: 0.45, ease: EASE_OUT }}
+          >
+            {glyphs.map(({ char, id }, i) => {
+              const digit = Number(char);
+              return (
+                <Digit
+                  key={id}
+                  digit={armed ? digit : 0}
+                  delay={entered ? 0 : i * stagger}
+                  duration={duration}
+                  blur={blur}
+                  className={digitClassName}
+                />
+              );
+            })}
+          </motion.span>
+        ) : (
+          glyphs.map(({ char, id }, i) => {
+            const isDigit = /\d/.test(char);
+            if (!isDigit) {
+              return (
+                <span key={id} className="inline-block">
+                  {char}
+                </span>
+              );
+            }
+            const digit = Number(char);
             return (
-              <span key={id} className="inline-block">
-                {char}
-              </span>
+              <Digit
+                key={id}
+                digit={armed ? digit : 0}
+                delay={entered ? 0 : i * stagger}
+                duration={duration}
+                blur={blur}
+                className={digitClassName}
+              />
             );
-          }
-          const digit = Number(char);
-          return (
-            <Digit
-              key={id}
-              digit={armed ? digit : 0}
-              delay={entered ? 0 : i * stagger}
-              duration={duration}
-              blur={blur}
-              className={digitClassName}
-            />
-          );
-        })}
-        {suffix ? <span>{suffix}</span> : null}
+          })
+        )}
+        {suffix ? (
+          <span
+            className="flex items-center leading-none"
+            style={{ height: `${DIGIT_HEIGHT_EM}em` }}
+          >
+            <span className="whitespace-pre">{suffix}</span>
+          </span>
+        ) : null}
       </span>
     </span>
   );

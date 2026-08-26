@@ -16,15 +16,16 @@ const LEVEL_BG = [
   "bg-neutral-900 dark:bg-white",
 ];
 
-// mostly quiet with sparse activity + one hot streak, like the real graph
+// hero palette; density weighted to visible levels 1–2 so the grid reads as a
+// textured field (level 0 is invisible on the zinc-900 card in dark mode)
 const GRID: string[] = [
-  "0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
-  "0 1 0 0 0 0 0 0 2 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0",
-  "0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0",
-  "1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 4 0 0 0 0 0 0 0",
-  "0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 3 0 0 0 0 1 0 0",
-  "0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 4 0 0 0 0 0 0 0",
-  "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
+  "1 0 1 2 1 0 2 1 0 1 2 1 0 2 1 0 3 1 0 2 1 0 1 2",
+  "2 1 0 1 2 1 3 0 2 1 0 2 1 0 1 2 4 0 1 2 1 0 2 1",
+  "1 2 1 0 1 2 0 1 2 3 1 0 2 1 0 1 4 2 0 1 2 1 0 1",
+  "0 1 2 1 3 0 1 2 1 0 2 1 3 0 1 2 4 1 0 2 1 3 0 2",
+  "1 0 1 2 0 1 2 1 0 3 1 2 0 1 2 1 3 0 2 1 0 1 2 0",
+  "2 1 3 0 1 2 1 0 2 1 0 1 2 3 0 1 4 2 1 0 1 2 0 1",
+  "0 2 1 0 2 1 0 1 1 2 1 0 1 0 2 1 0 1 2 1 0 2 1 0",
 ];
 
 export function GitHubHoverCard() {
