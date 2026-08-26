@@ -97,7 +97,7 @@ const NAV = [
   { label: "Home", href: "/", Icon: HomeGlyph },
   { label: "Work", href: "/work", Icon: WorkGlyph },
   { label: "Craft", href: "/playground", Icon: PlaygroundGlyph, disabled: true },
-  { label: "Stack", href: "/skills", Icon: SkillsGlyph, disabled: true },
+  { label: "Stack", href: "/skills", Icon: SkillsGlyph },
 ];
 
 export function DockBar() {

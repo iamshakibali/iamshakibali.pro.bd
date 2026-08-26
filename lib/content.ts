@@ -112,6 +112,55 @@ export const content = {
       note: "In Development",
     },
   ],
+  skills: [
+    {
+      index: "01",
+      name: "Language",
+      items: [
+        { name: "HTML", icon: "html" },
+        { name: "CSS", icon: "css" },
+        { name: "TypeScript", icon: "typescript" },
+        { name: "JavaScript", icon: "javascript" },
+      ],
+    },
+    {
+      index: "02",
+      name: "Frontend",
+      items: [
+        { name: "React", icon: "react" },
+        { name: "Next.js", icon: "nextjs" },
+        { name: "Tailwind CSS", icon: "tailwind" },
+        { name: "shadcn/ui", icon: "shadcn" },
+        { name: "Radix UI", icon: "radix" },
+        { name: "Base UI", icon: "baseui" },
+        { name: "Motion", icon: "motion" },
+        { name: "Expo", icon: "expo" },
+      ],
+    },
+    {
+      index: "03",
+      name: "Workflow & AI",
+      items: [
+        { name: "Claude", icon: "claude" },
+        { name: "Cursor", icon: "cursor" },
+        { name: "Gemini", icon: "gemini" },
+        { name: "ChatGPT", icon: "chatgpt" },
+        { name: "Git", icon: "git" },
+        { name: "GitHub", icon: "github" },
+        { name: "Docker", icon: "docker" },
+        { name: "Vercel", icon: "vercel" },
+      ],
+    },
+    {
+      index: "04",
+      name: "Design",
+      items: [
+        { name: "Figma", icon: "figma" },
+        { name: "Paper", icon: "paper" },
+        { name: "Photoshop", icon: "photoshop" },
+      ],
+    },
+  ],
   archive: [
     {
       year: "2026",

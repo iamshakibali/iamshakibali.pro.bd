@@ -143,16 +143,18 @@ export default function WorkPage() {
             {/* Timeline rail + entry — tile left-aligns with the company logo,
                 rail runs the tile's center, ends at the tag row with a curl */}
             <div className="relative mt-4">
+              {/* rail ends exactly where the curl's arc begins (bottom offset
+                  + radius), otherwise the line overshoots and forks the arc */}
               <motion.span
                 aria-hidden
-                className="absolute left-3 top-0 h-[calc(100%-18px)] w-px bg-neutral-300 dark:bg-neutral-700"
+                className="absolute left-3 top-0 h-[calc(100%-26px)] w-px bg-neutral-300 dark:bg-neutral-700"
                 initial={reduce ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.45, ease: "easeOut", delay: 0.22 }}
               />
               <motion.span
                 aria-hidden
-                className="absolute bottom-[18px] left-3 size-4 rounded-bl-[4px] border-b border-l border-neutral-300 dark:border-neutral-700"
+                className="absolute bottom-[18px] left-3 size-4 rounded-bl-[8px] border-b border-l border-neutral-300 dark:border-neutral-700"
                 initial={reduce ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.45, ease: "easeOut", delay: 0.22 }}
