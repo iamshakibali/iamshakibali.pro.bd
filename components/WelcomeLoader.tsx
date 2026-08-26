@@ -48,7 +48,7 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
         }
         return i + 1;
       });
-    }, 360);
+    }, 280);
     return () => clearInterval(id);
   }, [reduce]);
 
@@ -77,18 +77,18 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
     >
       {phase === "words" || !path ? (
         <div className="relative flex h-full w-full items-center justify-center">
-          {/* masked roll: outgoing and incoming words travel together inside a
-              text-sized overflow-hidden window, so the swap reads as one
-              continuous motion — no blur, movement + blur reads as a smear */}
-          <div className="relative flex h-[32px] w-full items-center justify-center overflow-hidden">
-            <AnimatePresence>
+          {/* pure fade: outgoing word fades out completely before the next
+              fades in (mode="wait") — no movement, so nothing to mask and no
+              double-exposure overlap */}
+          <div className="flex h-[32px] w-full items-center justify-center">
+            <AnimatePresence mode="wait">
               <motion.div
                 key={`word-${HELLOS[index]}`}
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -32 }}
-                transition={{ duration: 0.28, ease: EASE_OUT }}
-                className="absolute inset-0 flex items-center justify-center gap-3"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.12, ease: "easeInOut" }}
+                className="flex items-center justify-center gap-3"
               >
                 <span
                   aria-hidden="true"
