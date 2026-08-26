@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { TextScramble } from "@/components/motion/text-scramble";
+import { ProgressiveBlur } from "@/registry/magicui/progressive-blur";
 import { content } from "@/lib/content";
 
 // same entrance the work page heading uses
@@ -12,9 +13,14 @@ const FADE_UP = {
 
 export default function SkillsPage() {
   const reduce = useReducedMotion() ?? false;
+  const { scrollYProgress } = useScroll();
+  const pb = useTransform(scrollYProgress, [0.2, 1], ["40px", "300px"]);
   return (
     <main className="flex flex-1 flex-col items-center justify-start bg-background text-foreground">
-      <div className="relative flex w-full flex-1 flex-col items-center justify-start px-6 pt-16">
+      <motion.div
+        className="relative flex w-full flex-1 flex-col items-center justify-start px-6 pt-16"
+        style={{ paddingBottom: pb }}
+      >
         <div className="flex w-full max-w-[540px] flex-col gap-[25px]">
           {/* Heading — same hero greeting treatment as the work page */}
           <motion.p
@@ -80,7 +86,14 @@ export default function SkillsPage() {
             ))}
           </motion.div>
         </div>
-      </div>
+      </motion.div>
+      {/* progressive blur at the bottom — same treatment as the work page */}
+      <ProgressiveBlur
+        position="bottom"
+        height="180px"
+        className="fixed"
+        blurLevels={[0.5, 1, 2, 4, 8, 16, 24, 32]}
+      />
     </main>
   );
 }
