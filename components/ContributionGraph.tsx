@@ -14,8 +14,6 @@ const MONTHS = [
   { label: "Apr", week: 31 },
   { label: "May", week: 35 },
   { label: "Jun", week: 39 },
-  { label: "Jul", week: 44 },
-  { label: "Aug", week: 48 },
 ];
 
 // GitHub's quartile colour bands (0 = none, 1–3 = low, 4–8 = mid,
@@ -29,7 +27,8 @@ const LEVEL_BG = [
 ];
 
 const GAP = 3;
-const CELL = (540 - (51 - 1) * GAP) / 51; // 7.647 — fills the 540px column
+const WEEKS = 41; // 10px cells: 41 weeks × 13px = 530px — the most that fits the 540px column
+const CELL = 10;
 const PITCH = CELL + GAP;
 
 function countToLevel(count: number): number {
@@ -74,8 +73,8 @@ export function ContributionGraph() {
           });
         }
         if (week.length > 0) groups.push(week);
-        // take the latest 51 weeks
-        const weeks = groups.slice(-51);
+        // take the latest weeks that fit at 10px cells
+        const weeks = groups.slice(-WEEKS);
         // compute month labels from the actual data
         const months: { label: string; week: number }[] = [];
         const seen = new Set<string>();
@@ -97,10 +96,10 @@ export function ContributionGraph() {
       })
       .catch(() => {
         // API unavailable — fall back to the designed static data
-        const DAYS = 357;
+        const DAYS = 287;
         const weeks: { count: number; label: string }[][] = [];
         const start = new Date(2025, 8, 1);
-        for (let w = 0; w < 51; w++) {
+        for (let w = 0; w < WEEKS; w++) {
           const week: { count: number; label: string }[] = [];
           for (let d = 0; d < 7; d++) {
             const seed = Math.sin(w * 127.1 + d * 311.7) * 43758.5453;
@@ -135,14 +134,14 @@ export function ContributionGraph() {
 
   if (loading) {
     // keep the same height while the API call is in-flight
-    return <div className="h-[125px] w-full" />;
+    return <div className="h-[137px] w-full" />;
   }
 
   const weeks = data?.weeks;
   const months = data?.months ?? MONTHS;
   if (!weeks) {
     // API failed — show nothing rather than wrong data
-    return <div className="h-[125px] w-full" />;
+    return <div className="h-[137px] w-full" />;
   }
 
   const total = data?.total ?? 0;
@@ -156,7 +155,7 @@ export function ContributionGraph() {
         <div className="min-w-max">
           <div
             className="relative mb-[10px] h-[15px]"
-            style={{ width: 51 * PITCH - GAP }}
+            style={{ width: WEEKS * PITCH - GAP }}
           >
             {months.map(({ label, week }) => (
               <span

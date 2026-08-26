@@ -2,6 +2,31 @@
 
 All notable changes to [iamshakibali.pro.bd](https://iamshakibali.pro.bd/) — Shakib Ali's personal portfolio.
 
+## 2026-08-26
+
+### Site chrome & navigation
+- Header and dock are now permanent chrome on every page — only the page content changes; the header also sticks to the top while scrolling
+- Dock renamed: Playground → **Craft**, Skills → **Stack** (routes unchanged); stub pages added for Work, Craft, and Stack
+
+### Work page
+- New **Experience** section: vertical timeline with logo tile, rail with bottom curl, and a pulsing dot on the current role
+- Four entries — Vivetica AG (current), Orbix Studio, ScreensDesigns, Hashtagfox OÜ — each with logo, role, duration, location, clickable highlights, and skill tags
+- Heading scrambles in; entries fade up in a stagger
+
+### Hero
+- GitHub activity graph now shows **real contribution data** (live from GitHub): hover any cell for that day's count, weeks aligned Sunday–Saturday, month labels, clip-and-swipe on mobile
+- Graph cells enlarged to 10px — the latest 41 weeks fill the content margin
+- Bio rewritten: "Previously," removed, new line rhythm
+
+### Pill hover cards (X / GitHub / LinkedIn)
+- GitHub card grid rebuilt at hero scale: tiny monochrome cells using the exact same level colors as the hero graph (theme-aware)
+- All three cards now share **one morphing frame** that glides between buttons and smoothly tweens its height (GitHub's card is shorter) instead of jumping
+
+### Site-wide
+- **Dark mode is now the default** for all visitors
+- Themed favicon: dark icon in dark mode, light icon in light mode
+- Browser tab title set to "Iamshakibali | Design Engineer"
+
 ## 2026-08-25
 
 ### Badge video popups
