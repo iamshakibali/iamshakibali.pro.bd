@@ -208,6 +208,7 @@ export function ContributionGraph() {
                   : " contributions in the last year"
               }
               className="align-middle"
+              startOnView={false}
             />
             {hover &&
               (dateParts ? (
