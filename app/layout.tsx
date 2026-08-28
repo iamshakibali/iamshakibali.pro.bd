@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 const overusedGrotesk = localFont({
-  src: "./fonts/OverusedGrotesk-Medium.ttf",
+  src: "./fonts/OverusedGrotesk-Medium.woff2",
   weight: "500",
   variable: "--font-overused-grotesk",
   display: "swap",
