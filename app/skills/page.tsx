@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { TextScramble } from "@/components/motion/text-scramble";
 import { ProgressiveBlur } from "@/registry/magicui/progressive-blur";
@@ -13,15 +14,40 @@ const FADE_UP = {
 
 export default function SkillsPage() {
   const reduce = useReducedMotion() ?? false;
+  const colRef = useRef<HTMLDivElement>(null);
+  // On phone viewports this page barely overflows, so the scroll-driven
+  // padding below completes its whole 40→300 ramp inside the first swipe and
+  // each +260px height change re-triggers it on the next scroll event — the
+  // document height thrashes and the page shakes. Short pages get a frozen
+  // runout instead; genuinely long pages keep the work-page ramp.
+  const [frozenPb, setFrozenPb] = useState<number | null>(null);
   const { scrollYProgress } = useScroll();
   const pb = useTransform(scrollYProgress, [0.2, 1], ["40px", "300px"]);
+  useEffect(() => {
+    const measure = () => {
+      // normalize to the 40px base padding so a previously frozen 300px
+      // doesn't skew the overflow reading on resize
+      const wrap = colRef.current?.parentElement;
+      if (!wrap) return;
+      const currentPb = parseFloat(getComputedStyle(wrap).paddingBottom) || 0;
+      const overflow =
+        document.documentElement.scrollHeight - currentPb + 40 - window.innerHeight;
+      setFrozenPb(overflow <= 0 ? 40 : overflow < 200 ? 300 : null);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
   return (
     <main className="flex flex-1 flex-col items-center justify-start bg-background text-foreground">
       <motion.div
         className="relative flex w-full flex-1 flex-col items-center justify-start px-6 pt-16"
-        style={{ paddingBottom: pb }}
+        style={{ paddingBottom: frozenPb ?? pb }}
       >
-        <div className="flex w-full max-w-[540px] flex-col gap-[25px]">
+        <div
+          ref={colRef}
+          className="flex w-full max-w-[540px] flex-col gap-[25px]"
+        >
           {/* Heading — same hero greeting treatment as the work page */}
           <motion.p
             className="text-[24px] font-medium leading-none text-foreground"
