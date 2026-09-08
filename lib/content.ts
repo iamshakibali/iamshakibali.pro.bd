@@ -5,7 +5,7 @@ export const content = {
   headline: "Product Designer & Design Engineer",
   subtext: "I design and build digital products end to end.",
   email: "hello@imahskaibali.com",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "https://drive.google.com/file/d/1xPchJJRMhTQe21jW2U7mDiCiPBWgVExV/view",
   socials: [
     { label: "Claude", url: "https://claude.ai/new?q=Who%20is%20iamshakibali%3F%20Search%20the%20web%20and%20give%20a%20summary%20of%20who%20they%20are%2C%20their%20work%2C%20and%20their%20website%20iamshakibali.pro.bd" },
     { label: "YouTube", url: "https://youtube.com/@iamshakibali" },
