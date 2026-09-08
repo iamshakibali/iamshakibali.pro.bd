@@ -92,6 +92,19 @@ export default function WorkPage() {
 
         {content.experience.map((job) => {
           const Icon = ENTRY_ICONS[job.icon];
+          const location = (
+            <>
+              {job.location}
+              {job.locationNote && <span className="ml-1.5">{job.locationNote}</span>}
+              {job.end === null && (
+                <span aria-hidden className="relative ml-2.5 inline-block size-2.5">
+                  <span className="absolute -inset-1 animate-ping rounded-full bg-foreground/10 motion-reduce:hidden" />
+                  <span className="absolute -inset-1 rounded-full bg-foreground/10" />
+                  <span className="absolute inset-[2px] rounded-full bg-foreground" />
+                </span>
+              )}
+            </>
+          );
           return (
           <section key={job.company} className="w-full">
             {/* Company row */}
@@ -127,18 +140,24 @@ export default function WorkPage() {
                   {job.company}
                 </a>
                 <span className="absolute right-0 top-1 hidden items-center whitespace-nowrap text-sm text-neutral-500 sm:flex dark:text-neutral-400">
-                  {job.location}
-                  {job.locationNote && <span className="ml-1.5">{job.locationNote}</span>}
-                  {job.end === null && (
-                    <span aria-hidden className="relative ml-2.5 inline-block size-2.5">
-                      <span className="absolute -inset-1 animate-ping rounded-full bg-foreground/10 motion-reduce:hidden" />
-                      <span className="absolute -inset-1 rounded-full bg-foreground/10" />
-                      <span className="absolute inset-[2px] rounded-full bg-foreground" />
-                    </span>
-                  )}
+                  {location}
                 </span>
               </div>
             </motion.div>
+
+            {/* Location — own line under the company name on mobile; the row
+                can't fit it beside the name on narrow screens. No blur in the
+                entrance: a leftover blur(0px) filter keeps this line (with its
+                infinitely animating presence dot) in a composited layer that
+                rasterizes text softly on phones. */}
+            <motion.span
+              className="ml-9 mt-1 flex items-center whitespace-nowrap text-sm text-neutral-500 sm:hidden dark:text-neutral-400"
+              initial={reduce ? false : { opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
+            >
+              {location}
+            </motion.span>
 
             {/* Timeline rail + entry — tile left-aligns with the company logo,
                 rail runs the tile's center, ends at the tag row with a curl */}
