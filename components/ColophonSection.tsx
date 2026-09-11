@@ -149,7 +149,7 @@ export function ColophonSection() {
         </div>
         <div className={CELL}>
           <Term>Source code</Term>
-          <Value href="https://github.com/iamshakibali">GitHub</Value>
+          <Value href="https://github.com/iamshakibali/iamshakibali.pro.bd">GitHub</Value>
         </div>
         <div className={CELL}>
           <Term>Domain</Term>
