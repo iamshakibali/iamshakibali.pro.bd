@@ -42,38 +42,42 @@ export default function PlaygroundPage() {
           {cards.map((c, i) => {
             const Span = c.span ?? "span 1";
             return (
-              <div
+              <motion.div
                 key={i}
-                className={`relative overflow-hidden rounded-2xl border border-dashed border-neutral-200/60 bg-neutral-50/40 dark:border-neutral-800/60 dark:bg-neutral-900/30 ${Span}`}
+                className={`relative overflow-hidden rounded-2xl ${Span}`}
+                variants={FADE_UP}
+                initial={reduce ? false : "hidden"}
+                animate="visible"
+                transition={{ duration: 0.45, ease: "easeOut", delay: 0.25 + i * 0.08 }}
               >
                 <video
-                  src="/craft-hero.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  draggable={false}
-                  className="w-full"
-                />
+                    src="/craft-hero.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    draggable={false}
+                    className="w-full"
+                  />
                 {/* overlay gradient + text */}
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent pb-4 pl-5 pt-12 pointer-events-none">
+                <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.12)_35%,rgba(0,0,0,0.05)_65%,transparent_90%)] pb-4 pl-5 pt-28 pointer-events-none">
                   <a
                     href="https://resumio-two.vercel.app/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pointer-events-auto group relative flex items-center gap-2 text-white"
+                    className="pointer-events-auto group relative flex items-center gap-[5px] text-white"
                   >
-                    <svg viewBox="0 0 256 256" className="size-4" aria-hidden fill="none" stroke="currentColor" strokeWidth={16} strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="64" y1="192" x2="192" y2="64" />
-                      <polyline points="88 64 192 64 192 168" />
-                    </svg>
                     <span className="relative text-sm font-medium">
                       Live View
                       <span className="absolute -bottom-[2px] left-0 h-px w-full origin-left scale-x-0 bg-white transition-transform duration-300 ease-out group-hover:scale-x-100" />
                     </span>
+                    <svg viewBox="0 0 256 256" className="size-4" aria-hidden fill="none" stroke="currentColor" strokeWidth={16} strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="64" y1="192" x2="192" y2="64" />
+                      <polyline points="88 64 192 64 192 168" />
+                    </svg>
                   </a>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
