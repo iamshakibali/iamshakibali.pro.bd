@@ -38,14 +38,42 @@ export default function PlaygroundPage() {
           Fits the site's standard 540px column: 2 columns stacking to 1 below
           sm, so the wide Figma layout composes within the container. */}
       <div className="mt-10 w-full max-w-[540px] px-6 pb-24">
-        <div className="grid auto-rows-[132px] grid-cols-2 gap-3 sm:auto-rows-[247px] sm:grid-cols-[1fr_1fr]">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-[1fr_1fr]">
           {cards.map((c, i) => {
             const Span = c.span ?? "span 1";
             return (
               <div
                 key={i}
-                className={`overflow-hidden rounded-2xl border border-dashed border-neutral-200/60 bg-neutral-50/40 dark:border-neutral-800/60 dark:bg-neutral-900/30 ${Span}`}
-              />
+                className={`relative overflow-hidden rounded-2xl border border-dashed border-neutral-200/60 bg-neutral-50/40 dark:border-neutral-800/60 dark:bg-neutral-900/30 ${Span}`}
+              >
+                <video
+                  src="/craft-hero.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  draggable={false}
+                  className="w-full"
+                />
+                {/* overlay gradient + text */}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent pb-4 pl-5 pt-12 pointer-events-none">
+                  <a
+                    href="https://resumio-two.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pointer-events-auto group relative flex items-center gap-2 text-white"
+                  >
+                    <svg viewBox="0 0 256 256" className="size-4" aria-hidden fill="none" stroke="currentColor" strokeWidth={16} strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="64" y1="192" x2="192" y2="64" />
+                      <polyline points="88 64 192 64 192 168" />
+                    </svg>
+                    <span className="relative text-sm font-medium">
+                      Live View
+                      <span className="absolute -bottom-[2px] left-0 h-px w-full origin-left scale-x-0 bg-white transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                    </span>
+                  </a>
+                </div>
+              </div>
             );
           })}
         </div>
@@ -62,16 +90,6 @@ export default function PlaygroundPage() {
   );
 }
 
-// cell spans keep a bento rhythm within the site's 2-col 540px container:
-// opens with a large 2×2 block, then tall 1×2 columns and 1×1 cells.
 const cards: { span?: string }[] = [
-  { span: "col-span-2 row-span-2" }, // hero featured card
-  { span: "row-span-2" },            // tall 1×2
-  { span: "col-span-1 row-span-1" },
-  { span: "col-span-1 row-span-1" },
-  { span: "col-span-1 row-span-1" },
-  { span: "col-span-1 row-span-1" },
-  { span: "col-span-2 row-span-1" },
-  { span: "col-span-2 row-span-1" },
-  { span: "col-span-2 row-span-2" },
+  { span: "col-span-2" },
 ];
