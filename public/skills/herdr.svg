@@ -1,0 +1,8 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon">
+<rect id="PaneTL" x="1" y="1.5" width="5.4" height="5" rx="1" fill="#9F9FA9" fill-opacity="0.8"/>
+<rect id="PaneTR" x="7.6" y="1.5" width="5.4" height="5" rx="1" fill="#9F9FA9" fill-opacity="0.8"/>
+<rect id="PaneBL" x="1" y="7.5" width="5.4" height="5" rx="1" fill="#9F9FA9" fill-opacity="0.8"/>
+<rect id="PaneBR" x="7.6" y="7.5" width="5.4" height="5" rx="1" fill="#9F9FA9" fill-opacity="0.8"/>
+</g>
+</svg>

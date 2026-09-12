@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon" stroke="#9F9FA9" stroke-opacity="0.8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline id="EyeLeft" points="2.8,4.6 4.8,7 2.8,9.4" />
+<line id="StarV" x1="9.4" y1="4.8" x2="9.4" y2="9.2" />
+<line id="StarD1" x1="8" y1="5.7" x2="10.8" y2="8.3" />
+<line id="StarD2" x1="10.8" y1="5.7" x2="8" y2="8.3" />
+<line id="Mouth" x1="4.4" y1="11.6" x2="8" y2="11.6" />
+</g>
+</svg>
