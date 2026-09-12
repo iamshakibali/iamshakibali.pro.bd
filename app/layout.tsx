@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { preload } from "react-dom";
 import "./globals.css";
 import { content } from "@/lib/content";
@@ -57,6 +58,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${overusedGrotesk.variable}`}>
       <body className="antialiased font-sans">
+        {/* Cloudflare Web Analytics */}
+        <Script
+          type="module"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "8b47c0a93763482e9da5bd26cb1a8a12"}'
+          strategy="afterInteractive"
+        />
+        {/* End Cloudflare Web Analytics */}
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <SiteShell>{children}</SiteShell>
           <DockBar />
