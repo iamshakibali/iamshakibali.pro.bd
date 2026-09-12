@@ -49,6 +49,10 @@ export default function RootLayout({
   preload("/badges/pintop.png", { as: "image" });
   preload("/x-avatar.png", { as: "image" });
   preload("/linkedin-avatar.png", { as: "image" });
+  // Craft page hero video: download starts on first paint so it's cached
+  // before the user opens the Craft tab (its entrance otherwise races video
+  // decode and drops frames on first visit).
+  preload("/craft-hero.mp4", { as: "video", type: "video/mp4" } as Parameters<typeof preload>[1]);
 
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${overusedGrotesk.variable}`}>

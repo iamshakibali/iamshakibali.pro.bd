@@ -48,7 +48,7 @@ export function GitHubHoverCard() {
           </svg>
         </span>
         <p className="text-[12.8px] leading-[19.2px] tracking-[-0.256px] whitespace-nowrap">
-          <span className="font-semibold text-[#262626] dark:text-zinc-100"><NumberTicker value={250} suffix="+" className="align-middle" /></span>
+          <span className="font-semibold text-[#262626] dark:text-zinc-100"><NumberTicker value={300} suffix="+" className="align-middle" /></span>
           <span className="font-normal text-[#737373] dark:text-zinc-400"> contributions in 2026</span>
         </p>
       </div>

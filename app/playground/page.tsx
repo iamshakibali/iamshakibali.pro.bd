@@ -5,8 +5,8 @@ import { TextScramble } from "@/components/motion/text-scramble";
 import { ProgressiveBlur } from "@/registry/magicui/progressive-blur";
 
 const FADE_UP = {
-  hidden: { opacity: 0, y: 14, filter: "blur(6px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+  hidden: { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0 },
 };
 
 export default function PlaygroundPage() {
@@ -51,14 +51,18 @@ export default function PlaygroundPage() {
                 transition={{ duration: 0.45, ease: "easeOut", delay: 0.25 + i * 0.08 }}
               >
                 <video
-                    src="/craft-hero.mp4"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    draggable={false}
-                    className="w-full"
-                  />
+                  src="/craft-hero.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  draggable={false}
+                  className="w-full opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-100"
+                  onCanPlayThrough={(e) => {
+                    e.currentTarget.dataset.ready = "true";
+                  }}
+                />
                 {/* overlay gradient + text */}
                 <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.12)_35%,rgba(0,0,0,0.05)_65%,transparent_90%)] pb-4 pl-5 pt-28 pointer-events-none">
                   <a
