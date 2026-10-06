@@ -10,10 +10,12 @@ export function ProjectsSection() {
 
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {content.projects.map((project) => {
-          const Wrapper = project.note ? "div" : "a";
-          const wrapperProps = project.note
-            ? { className: "group relative overflow-hidden rounded-lg border border-dashed border-neutral-200/40 bg-neutral-100/70 transition-colors duration-300 hover:border-neutral-400 hover:bg-neutral-200/70 cursor-default dark:border-neutral-800/50 dark:bg-neutral-800/60 dark:hover:border-neutral-600 dark:hover:bg-neutral-800/80" }
-            : { href: project.url, target: "_blank", rel: "noopener noreferrer", className: "group relative overflow-hidden rounded-lg border border-dashed border-neutral-200/40 bg-neutral-100/70 transition-colors duration-300 hover:border-neutral-400 hover:bg-neutral-200/70 dark:border-neutral-800/50 dark:bg-neutral-800/60 dark:hover:border-neutral-600 dark:hover:bg-neutral-800/80" };
+          const url: string = project.url;
+          const isLink = Boolean(url) && url !== "#";
+          const Wrapper = isLink ? "a" : "div";
+          const wrapperProps = isLink
+            ? { href: url, target: "_blank", rel: "noopener noreferrer", className: "group relative overflow-hidden rounded-lg border border-dashed border-neutral-200/40 bg-neutral-100/70 transition-colors duration-300 hover:border-neutral-400 hover:bg-neutral-200/70 dark:border-neutral-800/50 dark:bg-neutral-800/60 dark:hover:border-neutral-600 dark:hover:bg-neutral-800/80" }
+            : { className: "group relative overflow-hidden rounded-lg border border-dashed border-neutral-200/40 bg-neutral-100/70 transition-colors duration-300 hover:border-neutral-400 hover:bg-neutral-200/70 cursor-default dark:border-neutral-800/50 dark:bg-neutral-800/60 dark:hover:border-neutral-600 dark:hover:bg-neutral-800/80" };
           return (
             <Wrapper key={project.name} {...wrapperProps}>
             <img

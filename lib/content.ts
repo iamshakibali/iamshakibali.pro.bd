@@ -108,7 +108,7 @@ export const content = {
       name: "VisualPillar",
       description: "Full Cycle design agency in BD\n— Design & Frontend",
       image: "/projects/placeholder.png",
-      url: "#",
+      url: "https://visualpillar.vercel.app/",
       note: "In Development",
     },
   ],
