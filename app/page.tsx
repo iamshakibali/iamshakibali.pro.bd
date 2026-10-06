@@ -179,8 +179,17 @@ function HeroContent() {
               </span>{" "}
               <span className="font-medium text-black dark:text-white">Pintop</span>
             </span>
+          </LogoBadge>{" "}
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>&amp;{" "}</span>
+          <LogoBadge id="spanorama" label="Spanorama" src="/badges/spanorama.png" href="https://github.com/iamshakibali/Spanorama" popup={false} active={logoHovered === "spanorama"} dimmed={logoHovered !== null && logoHovered !== "spanorama"} onHoverChange={setLogoHovered}>
+            <span className="whitespace-nowrap">
+              <span className="mx-[1px] inline-block h-[21px] w-[21px] align-middle">
+                <img src="/badges/spanorama.png" alt="Spanorama" draggable={false} className="size-full object-contain" />
+              </span>{" "}
+              <span className="font-medium text-black dark:text-white">Spanorama</span>
+            </span>
           </LogoBadge>
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, and{"\n"}love contributing to open-source projects.</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>, and love contributing to open-source projects.</span>
         </motion.p>
 
         <div ref={pillRowRef} className="relative mt-8">
