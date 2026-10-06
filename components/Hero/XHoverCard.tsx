@@ -54,7 +54,7 @@ export function XHoverCard() {
           <span className="font-normal text-[#737373] dark:text-zinc-400"> Following</span>
         </p>
         <p className="whitespace-nowrap text-[14.4px] leading-[14.4px] tracking-[-0.288px]">
-          <span className="font-semibold text-[#171717] dark:text-zinc-100"><NumberTicker value={72} className="align-middle" /></span>
+          <span className="font-semibold text-[#171717] dark:text-zinc-100"><NumberTicker value={77} className="align-middle" /></span>
           <span className="font-normal text-[#737373] dark:text-zinc-400"> Followers</span>
         </p>
       </div>
