@@ -51,7 +51,7 @@ export default function PlaygroundPage() {
                 transition={{ duration: 0.45, ease: "easeOut", delay: 0.25 + i * 0.08 }}
               >
                 <video
-                  src="/craft-hero.mp4"
+                  src={c.src}
                   autoPlay
                   muted
                   loop
@@ -63,10 +63,10 @@ export default function PlaygroundPage() {
                     e.currentTarget.dataset.ready = "true";
                   }}
                 />
-                {/* overlay gradient + text */}
+                {c.href ? (
                 <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.12)_35%,rgba(0,0,0,0.05)_65%,transparent_90%)] pb-4 pl-5 pt-28 pointer-events-none">
                   <a
-                    href="https://resumio-two.vercel.app/"
+                    href={c.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="pointer-events-auto group relative flex items-center gap-[5px] text-white"
@@ -81,6 +81,7 @@ export default function PlaygroundPage() {
                     </svg>
                   </a>
                 </div>
+                ) : null}
               </motion.div>
             );
           })}
@@ -98,6 +99,7 @@ export default function PlaygroundPage() {
   );
 }
 
-const cards: { span?: string }[] = [
-  { span: "col-span-2" },
+const cards: { span?: string; src: string; href?: string }[] = [
+  { span: "col-span-2", src: "/craft-hero.mp4", href: "https://resumio-two.vercel.app/" },
+  { span: "col-span-2", src: "/craft-teleosn.mp4" },
 ];
