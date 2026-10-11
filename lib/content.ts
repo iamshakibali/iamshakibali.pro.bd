@@ -111,6 +111,13 @@ export const content = {
       url: "https://visualpillar.vercel.app/",
       note: "In Development",
     },
+    {
+      name: "Telezen",
+      description: "Seamless AI conversations\nanytime, anywhere. — Design & Frontend",
+      image: "/projects/telezen.png",
+      url: "https://telezen-indol.vercel.app/",
+      note: "In Development",
+    },
   ],
   skills: [
     {
