@@ -44,7 +44,7 @@ export default function PlaygroundPage() {
             return (
               <motion.div
                 key={i}
-                className={`relative overflow-hidden rounded-2xl ${Span}`}
+                className={`relative overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10 ${Span}`}
                 variants={FADE_UP}
                 initial={reduce ? false : "hidden"}
                 animate="visible"
