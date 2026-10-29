@@ -101,4 +101,5 @@ export default function PlaygroundPage() {
 
 const cards: { span?: string; src: string; href?: string }[] = [
   { span: "col-span-2", src: "/craft-hero.mp4", href: "https://resumio-two.vercel.app/" },
+  { span: "col-span-2", src: "/craft-fitness-app.mp4", href: "https://interview-crack-pearl.vercel.app/" },
 ];
