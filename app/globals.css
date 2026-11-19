@@ -27,6 +27,13 @@ body {
   height: 100%;
 }
 
+/* always reserve the scrollbar's space: the welcome loader locks scrolling
+   (hiding the scrollbar), and without this the page widens then narrows when
+   it unlocks — shifting centred content, e.g. the signature, sideways */
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

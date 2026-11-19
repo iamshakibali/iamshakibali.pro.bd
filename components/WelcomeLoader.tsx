@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { EASE_OUT } from "@/lib/ease";
 
 const HELLOS = ["Hello", "Bonjour", "স্বাগতম", "你好", "こんにちは"];
+const START_H = 128; // 8rem — signature height while centred on the loader
 
 type Phase = "words" | "signature" | "moving";
 
@@ -20,17 +21,28 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
     endScale: number;
   } | null>(null);
 
+  // once the flying signature lands, hide it at once so the hero signature
+  // takes over — fading it out with the overlay would double-expose the two
+  const [landed, setLanded] = useState(false);
+
+  // where the hero signature sits right now — read just before the move, not
+  // at mount, so font loading, scroll restoration or a resize in between
+  // can't leave the flight aimed at a stale spot
+  const measureEnd = () => {
+    const r = document.getElementById("hero-signature")?.getBoundingClientRect();
+    return {
+      endX: r ? r.left : Math.max(8, window.innerWidth / 2 - 286),
+      endY: r ? r.top : 102,
+      endScale: r ? r.height / START_H : 0.75,
+    };
+  };
+
   useEffect(() => {
-    const START_H = 128; // 8rem
-    const el = document.getElementById("hero-signature");
-    const r = el?.getBoundingClientRect();
     const w = START_H * (1920 / 1080);
     setPath({
       startX: (window.innerWidth - w) / 2,
       startY: (window.innerHeight - START_H) / 2,
-      endX: r ? r.left : Math.max(8, window.innerWidth / 2 - 286),
-      endY: r ? r.top : 102,
-      endScale: r ? r.height / START_H : 0.75,
+      ...measureEnd(),
     });
   }, []);
 
@@ -54,12 +66,16 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
 
   useEffect(() => {
     if (phase !== "signature") return;
-    const t = setTimeout(() => setPhase("moving"), 550);
+    const t = setTimeout(() => {
+      setPath((p) => (p ? { ...p, ...measureEnd() } : p));
+      setPhase("moving");
+    }, 550);
     return () => clearTimeout(t);
   }, [phase]);
 
   const handleAnimationComplete = () => {
-    if (phase === "moving") {
+    if (phase === "moving" && !landed) {
+      setLanded(true);
       onComplete();
     }
   };
@@ -148,6 +164,7 @@ export function WelcomeLoader({ onComplete }: { onComplete: () => void }) {
               width: "auto",
               transformOrigin: "top left",
               willChange: "transform, opacity",
+              visibility: landed ? "hidden" : "visible",
             } as const
           }
         >
