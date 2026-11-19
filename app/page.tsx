@@ -137,10 +137,11 @@ function HeroContent() {
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
           className="mt-6 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Design Engineer at{" "}</span>
-          <LogoBadge id="vivetica" label="Vivetica" src="/badges/company-logo.svg" href="https://viveticacapital.ch" videoSrc="/badges/vivetica.mp4" width={290} imgClassName="dark:invert" active={logoHovered === "vivetica"} dimmed={logoHovered !== null && logoHovered !== "vivetica"} onHoverChange={setLogoHovered}>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Product Designer at{" "}</span>
+          <LogoBadge id="pathao" label="Pathao" src="/badges/pathao.svg" href="https://pathao.com" videoSrc="/badges/pathao.mp4" width={290} active={logoHovered === "pathao"} dimmed={logoHovered !== null && logoHovered !== "pathao"} onHoverChange={setLogoHovered}>
             <span className="inline-flex h-[21px] items-center justify-center rounded-full bg-[#f2f2f2] px-[10px] align-middle dark:bg-neutral-800">
-              <img src="/badges/company-logo.svg" alt="Vivetica" draggable={false} className="h-[13px] w-[74px] dark:invert" />
+              <img src="/badges/pathao.svg" alt="Pathao" draggable={false} className="h-[17px] w-auto dark:hidden" />
+              <img src="/badges/pathao-white.svg" alt="Pathao" draggable={false} className="hidden h-[17px] w-auto dark:block" />
             </span>
           </LogoBadge>{" "}
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}> building{"\n"}design frameworks and systems.</span>
@@ -153,7 +154,16 @@ function HeroContent() {
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.19 }}
           className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
-          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>I worked a Sr Product Designer at{" "}</span>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>I&apos;ve worked at{" "}</span>
+          <LogoBadge id="vivetica" label="Vivetica" src="/badges/vivetica-mark.svg" href="https://viveticacapital.ch" videoSrc="/badges/vivetica.mp4" width={290} active={logoHovered === "vivetica"} dimmed={logoHovered !== null && logoHovered !== "vivetica"} onHoverChange={setLogoHovered}>
+            <span className="whitespace-nowrap">
+              <span className="mx-[1px] inline-block size-[21px] align-middle">
+                <img src="/badges/vivetica-mark.svg" alt="Vivetica" draggable={false} className="size-full rounded-full object-cover" />
+              </span>{" "}
+              <span className="font-medium text-black dark:text-white">Vivetica</span>
+            </span>
+          </LogoBadge>
+          <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>,{" "}</span>
           <LogoBadge id="orbix" label="Orbix Studio" src="/badges/orbix.png" href="https://www.orbix.studio/" videoSrc="/badges/orbix.mp4" width={290} active={logoHovered === "orbix"} dimmed={logoHovered !== null && logoHovered !== "orbix"} onHoverChange={setLogoHovered}>
             <span className="whitespace-nowrap">
               <span className="mx-[1px] inline-block size-[21px] align-middle">

@@ -22,9 +22,9 @@ export const content = {
       locationNote: "(Remote)",
       role: "Product Design Engineer",
       type: "Part-time",
-      start: "01.2026",
-      end: null, // present
-      duration: "8m",
+      start: "Jan 2026",
+      end: "Nov 2026",
+      duration: "10m",
       highlights: [
         "Design and build reusable Pro components and UI blocks, translating Figma designs into production-ready React code used across the firm’s advisory and investment platforms.",
         "Create and maintain a scalable design system that ensures visual and functional consistency across products tied to infrastructure and energy transition initiatives.",
