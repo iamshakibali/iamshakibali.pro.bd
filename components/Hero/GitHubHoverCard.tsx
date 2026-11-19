@@ -1,6 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { NumberTicker } from "@/components/motion/number";
+import {
+  fetchContributions,
+  readCachedContributions,
+  type ContributionsPayload,
+} from "@/lib/github-contributions";
 
 const GAP = 3;
 const COLS = 24;
@@ -28,7 +34,33 @@ const GRID: string[] = [
   "0 2 1 0 2 1 0 1 1 2 1 0 1 0 2 1 0 1 2 1 0 2 1 0",
 ];
 
+const YEAR = String(new Date().getFullYear());
+
 export function GitHubHoverCard() {
+  const [live, setLive] = useState<{ total: number } | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const apply = (json: ContributionsPayload) => {
+      const total =
+        json.total?.[YEAR] ??
+        json.contributions
+          .filter((c) => c.date.startsWith(YEAR))
+          .reduce((s, c) => s + c.count, 0);
+      setLive({ total });
+    };
+    const cached = readCachedContributions();
+    if (cached) apply(cached);
+    fetchContributions()
+      .then((json) => {
+        if (!cancelled) apply(json);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <div className="flex h-[106px] w-full flex-col items-start">
       <div className="flex w-full items-center justify-between">
@@ -48,8 +80,12 @@ export function GitHubHoverCard() {
           </svg>
         </span>
         <p className="text-[12.8px] leading-[19.2px] tracking-[-0.256px] whitespace-nowrap">
-          <span className="font-semibold text-[#262626] dark:text-zinc-100"><NumberTicker value={300} suffix="+" className="align-middle" /></span>
-          <span className="font-normal text-[#737373] dark:text-zinc-400"> contributions in 2026</span>
+          <span className="font-semibold text-[#262626] dark:text-zinc-100">{live ? (
+            <NumberTicker value={live.total} className="align-middle" />
+          ) : (
+            <NumberTicker value={300} suffix="+" className="align-middle" />
+          )}</span>
+          <span className="font-normal text-[#737373] dark:text-zinc-400"> contributions in {YEAR}</span>
         </p>
       </div>
       <div

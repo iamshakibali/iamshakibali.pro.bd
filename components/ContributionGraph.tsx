@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { NumberTicker } from "@/components/motion/number";
 import { useWelcomeDone } from "@/components/WelcomeDoneContext";
+import {
+  fetchContributions,
+  readCachedContributions,
+  type ContributionsPayload,
+} from "@/lib/github-contributions";
 
 // month labels for the x-axis — approximate guide; the real data span is close
 const MONTHS = [
@@ -55,9 +60,9 @@ export function ContributionGraph() {
   // fetch real GitHub contributions via the public API and group by
 // Sun–Sat weeks so the visual pattern matches the real graph exactly
   useEffect(() => {
-    fetch("https://github-contributions-api.jogruber.de/v4/iamshakibali")
-      .then((r) => r.json())
-      .then((json) => {
+    let cancelled = false;
+
+    const build = (json: ContributionsPayload) => {
         const groups: { count: number; label: string }[][] = [];
         let week: { count: number; label: string }[] = [];
         for (const entry of json.contributions) {
@@ -90,14 +95,23 @@ export function ContributionGraph() {
             months.push({ label: m, week: wi });
           }
         });
-        const total = json.contributions.reduce(
-          (s: number, c: any) => s + c.count,
-          0,
-        );
+        const total = json.contributions.reduce((s, c) => s + c.count, 0);
         setData({ weeks, months, total });
         setLoading(false);
+    };
+
+    // show the last good payload instantly, then refresh in the background
+    const cached = readCachedContributions();
+    const hadCache = !!cached;
+    if (cached) build(cached);
+
+    fetchContributions()
+      .then((json) => {
+        if (!cancelled) build(json);
       })
       .catch(() => {
+        // keep cached real data rather than replacing it with the fallback
+        if (cancelled || hadCache) return;
         // API unavailable — fall back to the designed static data
         const DAYS = 287;
         const weeks: { count: number; label: string }[][] = [];
@@ -125,6 +139,10 @@ export function ContributionGraph() {
         setData({ weeks, months: MONTHS, total: 280 });
         setLoading(false);
       });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // when the graph overflows (mobile), start centred so both sides clip evenly
