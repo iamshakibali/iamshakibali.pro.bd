@@ -58,8 +58,15 @@ export default function PlaygroundPage() {
                   playsInline
                   preload="auto"
                   draggable={false}
-                  className="w-full opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-100"
-                  onCanPlayThrough={(e) => {
+                  className="block w-full opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-100"
+                  style={{ aspectRatio: c.aspect }}
+                  // the page is prerendered, so the video can finish loading
+                  // before hydration attaches listeners — check readyState on
+                  // mount too, otherwise a missed event leaves it invisible
+                  ref={(el) => {
+                    if (el && el.readyState >= 2) el.dataset.ready = "true";
+                  }}
+                  onLoadedData={(e) => {
                     e.currentTarget.dataset.ready = "true";
                   }}
                 />
@@ -99,7 +106,9 @@ export default function PlaygroundPage() {
   );
 }
 
-const cards: { span?: string; src: string; href?: string }[] = [
-  { span: "col-span-2", src: "/craft-hero.mp4", href: "https://resumio-two.vercel.app/" },
-  { span: "col-span-2", src: "/craft-fitness-app.mp4", href: "https://interview-crack-pearl.vercel.app/" },
+// aspect = the video's own width / height, so the card reserves its space
+// before the video loads instead of collapsing and jumping
+const cards: { span?: string; src: string; href?: string; aspect: string }[] = [
+  { span: "col-span-2", src: "/craft-hero.mp4", href: "https://resumio-two.vercel.app/", aspect: "960 / 526" },
+  { span: "col-span-2", src: "/craft-fitness-app.mp4", href: "https://interview-crack-pearl.vercel.app/", aspect: "1906 / 1038" },
 ];
