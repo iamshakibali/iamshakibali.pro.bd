@@ -173,6 +173,12 @@ export const content = {
   archive: [
     {
       year: "2026",
+      name: "Editorial Taste",
+      description: "Claude Code plugin for editorial, monochrome sites.",
+      url: "https://github.com/iamshakibali/editorial-taste",
+    },
+    {
+      year: "2026",
       name: "TRH CGI",
       description: "Portfolio for a Paris CGI studio.",
       url: "https://github.com/iamshakibali/thr-cgi-c",
