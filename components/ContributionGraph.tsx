@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { NumberTicker } from "@/components/motion/number";
 import { Contribution3D } from "@/components/Contribution3D";
+import { FallingGuy } from "@/components/FallingGuy";
 import { useWelcomeDone } from "@/components/WelcomeDoneContext";
 import {
   fetchContributions,
@@ -180,6 +181,12 @@ export function ContributionGraph() {
 
   return (
     <div className="relative w-full select-none">
+      {/* a little guy drops in from the top of the screen, lands on the hint
+          note and waves (desktop only — needs the empty right margin) */}
+      <FallingGuy
+        play={!!welcomeDone}
+        className={`absolute left-full top-6 ml-24 hidden -translate-y-full lg:block ${view3d ? "invisible" : ""}`}
+      />
       {/* easter-egg hint: a scribbled note + arrow nudging people to click */}
       {!view3d && welcomeDone && (
         <button

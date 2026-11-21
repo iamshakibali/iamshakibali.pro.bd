@@ -430,6 +430,8 @@ function HeroContent() {
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.44 }}
           // bleeds past the 540px column to the right viewport edge
           className="mt-8 w-[calc(100%+(100vw-100%)/2)]"
+          // the falling blob buddy lands on top of these cards
+          data-guy-ground
         >
           <DragScroll className="flex snap-x snap-mandatory gap-3 overflow-x-auto pr-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {homeCraft.map((c) => (
