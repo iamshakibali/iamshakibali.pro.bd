@@ -17,6 +17,7 @@ import { ArchiveSection } from "@/components/ArchiveSection";
 import { ColophonSection } from "@/components/ColophonSection";
 import { LinksLine } from "@/components/LinksLine";
 import { CraftVideoCard } from "@/components/CraftVideoCard";
+import { DragScroll } from "@/components/DragScroll";
 import { FlightPath } from "@/components/FlightPath";
 import { craftItems } from "@/lib/craft";
 import { SignatureGlyph } from "@/components/Signature";
@@ -430,7 +431,7 @@ function HeroContent() {
           // bleeds past the 540px column to the right viewport edge
           className="mt-8 w-[calc(100%+(100vw-100%)/2)]"
         >
-          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pr-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <DragScroll className="flex snap-x snap-mandatory gap-3 overflow-x-auto pr-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {homeCraft.map((c) => (
               <div
                 key={c.src}
@@ -439,7 +440,7 @@ function HeroContent() {
                 <CraftVideoCard src={c.src} href={c.href} aspect={c.aspect} />
               </div>
             ))}
-          </div>
+          </DragScroll>
         </motion.div>
 
         <motion.div
