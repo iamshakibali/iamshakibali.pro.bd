@@ -13,6 +13,23 @@ export const content = {
   ],
   experience: [
     {
+      company: "Pathao",
+      icon: "pen",
+      url: "https://pathao.com",
+      logo: "/badges/pathao-mark.svg",
+      logoInvert: false,
+      location: "Dhaka, Bangladesh",
+      locationNote: "(On Site)",
+      role: "Product Designer",
+      type: "Full Time",
+      start: "Nov 2026",
+      end: null, // current role
+      duration: "",
+      // TODO: add Pathao highlights
+      highlights: [],
+      tags: ["App Design", "Product Thinking", "UX Research"],
+    },
+    {
       company: "Vivetica AG",
       icon: "code",
       url: "https://viveticacapital.ch",

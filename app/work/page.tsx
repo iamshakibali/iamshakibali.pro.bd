@@ -1,8 +1,9 @@
 "use client";
 
 import { content } from "@/lib/content";
-import { Infinity as InfinityIcon } from "lucide-react";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { ChevronDown, Infinity as InfinityIcon } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { TextScramble } from "@/components/motion/text-scramble";
 import { ProgressiveBlur } from "@/registry/magicui/progressive-blur";
 
@@ -62,6 +63,21 @@ export default function WorkPage() {
   const reduce = useReducedMotion() ?? false;
   const { scrollYProgress } = useScroll();
   const pb = useTransform(scrollYProgress, [0.2, 1], ["40px", "300px"]);
+  // which jobs show their bullet points — the current role (and the most
+  // recent one with bullet points, if that's a different job) starts open
+  const [open, setOpen] = useState<Set<string>>(() => {
+    const jobs = content.experience as readonly { company: string; highlights: readonly string[] }[];
+    const first = jobs[0]?.company;
+    const firstWithBullets = jobs.find((j) => j.highlights.length > 0)?.company;
+    return new Set([first, firstWithBullets].filter((c): c is string => Boolean(c)));
+  });
+  const toggle = (company: string) =>
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(company)) next.delete(company);
+      else next.add(company);
+      return next;
+    });
   return (
     <main className="flex flex-1 flex-col items-center justify-start bg-background text-foreground">
       <motion.div
@@ -92,6 +108,8 @@ export default function WorkPage() {
 
         {content.experience.map((job) => {
           const Icon = ENTRY_ICONS[job.icon];
+          const isOpen = open.has(job.company);
+          const panelId = `job-${job.company.replace(/\W+/g, "-").toLowerCase()}`;
           const location = (
             <>
               {job.location}
@@ -187,12 +205,28 @@ export default function WorkPage() {
                   animate="visible"
                   transition={{ duration: 0.45, ease: "easeOut", delay: 0.22 }}
                 >
-                  <div className="flex min-w-0 items-start gap-3">
+                  <button
+                    type="button"
+                    onClick={() => toggle(job.company)}
+                    disabled={job.highlights.length === 0}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    className="group flex min-w-0 flex-1 items-start gap-3 text-left"
+                  >
                     <span className="relative flex size-6 shrink-0 items-center justify-center rounded-md bg-neutral-100 shadow-[0_0_0_1px_#ffffff,0_0_0_2px_rgba(228,228,231,0.5)] dark:bg-neutral-900 dark:shadow-[0_0_0_1px_#0a0a0a,0_0_0_2px_rgba(255,255,255,0.08)]">
                       <Icon className="size-4 text-neutral-500" aria-hidden="true" />
                     </span>
-                    <p className="text-base font-medium leading-6 text-foreground">{job.role}</p>
-                  </div>
+                    <span className="text-base font-medium leading-6 text-foreground">{job.role}</span>
+                    {/* expand / shrink chevron (only when there's something to show) */}
+                    {job.highlights.length > 0 && (
+                    <span className="ml-auto flex size-6 shrink-0 items-center justify-center rounded-full text-neutral-400 transition-colors group-hover:bg-neutral-100 group-hover:text-foreground dark:group-hover:bg-white/10">
+                      <ChevronDown
+                        className={`size-4 transition-transform duration-300 ease-out ${isOpen ? "rotate-180" : ""}`}
+                        aria-hidden
+                      />
+                    </span>
+                    )}
+                  </button>
                 </motion.div>
 
                 {/* Meta line */}
@@ -220,7 +254,18 @@ export default function WorkPage() {
                   )}
                 </motion.div>
 
-                {/* Bullets */}
+                {/* Bullets — expand / shrink with the role row toggle */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                <motion.div
+                  key="bullets"
+                  id={panelId}
+                  className="overflow-hidden"
+                  initial={reduce ? false : { height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+                  transition={{ duration: reduce ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+                >
                 <ul className="ml-[27px] mt-3 space-y-[7.5px]">
                   {job.highlights.map((h, i) => (
                     <motion.li
@@ -236,6 +281,9 @@ export default function WorkPage() {
                     </motion.li>
                   ))}
                 </ul>
+                </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Tags */}
                 {job.tags.length > 0 && (
