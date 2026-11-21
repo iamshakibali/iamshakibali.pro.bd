@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import { ThemeToggle } from "@/components/motion/theme-toggle";
+import { LampToggle } from "@/components/motion/theme-toggle";
 import { EmojiReaction } from "@/components/motion/emoji-reaction";
 import { Tooltip } from "@/components/motion/tooltip";
 import { useCoordinates } from "@/components/Hero/CoordinateTracker";
@@ -54,7 +54,7 @@ export function HeaderBar() {
 
   return (
     <motion.header
-      className="sticky top-0 z-20 flex w-full items-center justify-between bg-background px-6 py-4 md:px-10"
+      className="relative z-20 flex w-full items-center justify-between bg-background px-6 py-4 md:px-10"
       initial={reduce ? false : { opacity: 0, y: -10, filter: "blur(6px)" }}
       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       transition={{ duration: 0.45, ease: "easeOut" }}
@@ -68,7 +68,7 @@ export function HeaderBar() {
       >
         <Tooltip content="Add reaction" side="bottom">
           <span className="inline-flex">
-            <EmojiReaction size="sm" align="left" />
+            <EmojiReaction size="sm" align="left" defaultReaction="smiling-face-with-hearts" />
           </span>
         </Tooltip>
         <div
@@ -134,14 +134,12 @@ export function HeaderBar() {
             {String(coords.y).padStart(4, "\u00A0")}
           </span>
         </div>
-        <Tooltip content="Change theme" side="bottom">
-          <ThemeToggle
-            variant="circle-blur"
-            start="top-right"
-            className="flex size-8 items-center justify-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-200 hover:text-foreground dark:hover:bg-white/10"
-            iconClassName="size-4"
-          />
-        </Tooltip>
+        <LampToggle
+          variant="circle-blur"
+          start="top-right"
+          className="flex size-8 items-center justify-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-200 hover:text-foreground dark:hover:bg-white/10"
+          iconClassName="size-4"
+        />
       </motion.div>
     </motion.header>
   );

@@ -245,6 +245,8 @@ export type EmojiReactionProps = ComponentProps<"div"> & {
   emojis?: string[];
   emojiData?: EmojiData;
   onReact?: (name: string) => void;
+  /** reaction shown on the trigger before the visitor picks one */
+  defaultReaction?: string;
   size?: keyof typeof SIZES;
   align?: Align;
   asChild?: boolean;
@@ -254,6 +256,7 @@ export function EmojiReaction({
   emojis = DEFAULT_EMOJIS,
   emojiData = DEFAULT_EMOJI_DATA,
   onReact,
+  defaultReaction,
   size = "md",
   align = "center",
   asChild = false,
@@ -265,7 +268,7 @@ export function EmojiReaction({
   const reduced = useReducedMotion();
 
   const [open, setOpen] = useState(false);
-  const [last, setLast] = useState<string | null>(null);
+  const [last, setLast] = useState<string | null>(defaultReaction ?? null);
   const [particles, setParticles] = useState<Particle[]>([]);
   const [placement, setPlacement] = useState<Placement>({
     shift: 0,
