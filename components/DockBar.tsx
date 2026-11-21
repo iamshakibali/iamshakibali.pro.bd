@@ -109,7 +109,7 @@ export function DockBar() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed inset-x-0 bottom-5 z-40 flex justify-center"
+      className="pointer-events-none fixed inset-x-0 bottom-8 z-40 flex justify-center"
       initial={reduce ? false : { opacity: 0, y: 14, filter: "blur(6px)" }}
       animate={
         shown
