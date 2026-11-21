@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { PaperPlaneCrash } from "@/components/PaperPlaneCrash";
 import {
   motion,
   useMotionValue,
@@ -111,8 +110,6 @@ export function FlightPath({ visible }: { visible: boolean }) {
       animate={{ opacity: visible ? 1 : 0 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: visible ? 0.5 : 0 }}
     >
-      {/* a paper plane flies in from the left and crashes into the path, level with the greeting */}
-      <PaperPlaneCrash play={visible} className="left-0 top-[96px] z-10" />
       {/* dashed track */}
       <span className="absolute inset-y-0 left-0 border-l border-dashed border-neutral-300 dark:border-neutral-700" />
       {/* filled path */}

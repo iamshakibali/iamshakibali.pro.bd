@@ -250,8 +250,6 @@ export function FallingGuy({ play, className = "" }: { play: boolean; className?
     gone.current = true;
     rootRef.current.style.opacity = "0";
     rootRef.current.style.pointerEvents = "none";
-    // cue the next act (the paper plane waits for this)
-    window.dispatchEvent(new Event("blob-gone"));
   };
 
   // the drop-in
@@ -325,7 +323,6 @@ export function FallingGuy({ play, className = "" }: { play: boolean; className?
   return (
     <div
       ref={rootRef}
-      data-blob
       aria-hidden
       className={`cursor-pointer select-none opacity-0 ${className}`}
       onPointerEnter={() => played.current && void wave()}
