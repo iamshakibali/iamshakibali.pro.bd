@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { NumberTicker } from "@/components/motion/number";
+import { Contribution3D } from "@/components/Contribution3D";
 import { useWelcomeDone } from "@/components/WelcomeDoneContext";
 import {
   fetchContributions,
@@ -56,6 +57,14 @@ export function ContributionGraph() {
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState<{ count: number; label: string } | null>(null);
+  // click the grid → it flies forward and tilts into a 3D view
+  const [origin3d, setOrigin3d] = useState<HTMLElement | null>(null);
+  const view3d = origin3d !== null;
+  const gridRef = useRef<HTMLDivElement>(null);
+  const open3d = (el: HTMLElement | null) => {
+    if (!el) return;
+    setOrigin3d(el);
+  };
 
   // fetch real GitHub contributions via the public API and group by
 // Sun–Sat weeks so the visual pattern matches the real graph exactly
@@ -170,12 +179,46 @@ export function ContributionGraph() {
   const dateParts = hover?.label.match(/^(\S+) (\d+), (\d+)$/);
 
   return (
-    <div className="w-full select-none">
+    <div className="relative w-full select-none">
+      {/* easter-egg hint: a scribbled note + arrow nudging people to click */}
+      {!view3d && welcomeDone && (
+        <button
+          type="button"
+          onClick={() => open3d(gridRef.current)}
+          aria-label="Click the graph to see it in 3D"
+          // phones: above the graph's top-right, arrow curling down into it.
+          // sm+: out in the empty margin right of the graph, arrow pointing back
+          className="absolute -top-9 right-0 z-10 flex animate-[hint-bob_2.4s_ease-in-out_infinite] items-start gap-0.5 text-neutral-500 transition-colors hover:text-foreground motion-reduce:animate-none sm:left-full sm:right-auto sm:top-6 sm:ml-3 sm:flex-row-reverse sm:gap-1 dark:text-neutral-400"
+        >
+          <span className="rotate-[-8deg] whitespace-nowrap text-right font-mono text-[10px] leading-tight sm:rotate-[6deg] sm:text-left">
+            psst… click me
+            <span className="block">for some magic ✦</span>
+          </span>
+          {/* hand-drawn arrow curling down toward the grid */}
+          <svg viewBox="0 0 32 32" className="mt-3 size-6 sm:-mt-2 sm:rotate-[60deg] sm:-scale-x-100" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M4 4c10 0 18 6 18 20" />
+            <path d="M17 19l5 6 5-6" />
+          </svg>
+        </button>
+      )}
       <div
         ref={scrollRef}
         className="overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
-        <div className="min-w-max">
+        <div
+          ref={gridRef}
+          role="button"
+          tabIndex={0}
+          aria-label="View contributions in 3D"
+          onClick={(e) => open3d(e.currentTarget)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              open3d(e.currentTarget);
+            }
+          }}
+          className="min-w-max cursor-pointer outline-none"
+        >
           <div
             className="relative mb-[10px] h-[15px]"
             style={{ width: WEEKS * PITCH - GAP }}
@@ -190,7 +233,9 @@ export function ContributionGraph() {
               </span>
             ))}
           </div>
-          <div className="flex flex-col gap-[3px]">
+          {/* hidden (instantly, no fade) while the 3D copy is out, so the
+              copy can swap back in place without a double image */}
+          <div data-graph-cells className={`flex flex-col gap-[3px] ${view3d ? "invisible" : ""}`}>
             {[0, 1, 2, 3, 4, 5, 6].map((day) => (
               <div key={day} className="flex gap-[3px]">
                 {weeks.map((week, wIdx) => {
@@ -213,6 +258,14 @@ export function ContributionGraph() {
           </div>
         </div>
       </div>
+      {origin3d && (
+        <Contribution3D
+          weeks={weeks}
+          total={total}
+          origin={origin3d}
+          onClosed={() => setOrigin3d(null)}
+        />
+      )}
       <p className="mt-[9px] font-mono text-[10px] text-neutral-500 dark:text-neutral-400">
         {welcomeDone ? (
           <>
