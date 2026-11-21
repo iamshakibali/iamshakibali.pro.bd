@@ -189,11 +189,5 @@ export const content = {
       description: "Pin any window always-on-top on macOS.",
       url: "https://github.com/iamshakibali/pin-top",
     },
-    {
-      year: "2026",
-      name: "Vucko",
-      description: "Creative agency site built around motion.",
-      url: "https://github.com/iamshakibali/Vucko",
-    },
   ],
 } as const;

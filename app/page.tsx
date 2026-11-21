@@ -16,6 +16,9 @@ import { ProjectsSection } from "@/components/ProjectsSection";
 import { ArchiveSection } from "@/components/ArchiveSection";
 import { ColophonSection } from "@/components/ColophonSection";
 import { LinksLine } from "@/components/LinksLine";
+import { CraftVideoCard } from "@/components/CraftVideoCard";
+import { FlightPath } from "@/components/FlightPath";
+import { craftItems } from "@/lib/craft";
 import { SignatureGlyph } from "@/components/Signature";
 import { ProgressiveBlur } from "@/registry/magicui/progressive-blur";
 
@@ -96,11 +99,12 @@ function HeroContent() {
 
   return (
     <div
-      className="relative flex flex-1 flex-col bg-background text-foreground"
+      className="relative flex flex-1 flex-col overflow-x-clip bg-background text-foreground"
       onMouseMove={handleSigMagnetic}
     >
       <motion.div className="flex flex-1 flex-col items-center justify-start px-6 pt-16" style={{ paddingBottom: pb }}>
-        <div className="flex w-full max-w-[540px] flex-col items-start text-left">
+        <div className="relative flex w-full max-w-[540px] flex-col items-start text-left">
+          <FlightPath visible={!!welcomeDone} />
         <motion.svg
           viewBox="0 0 1920 1080"
           id="hero-signature"
@@ -125,7 +129,7 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
-          className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mt-4 whitespace-normal sm:whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Based in Bangladesh, working globally. I started with design, but my{"\n"}curiosity about how things work pulled me toward code.</span>
         </motion.p>
@@ -135,7 +139,7 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
-          className="mt-6 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mt-6 whitespace-normal sm:whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>Currently, I&apos;m a Product Designer at{" "}</span>
           <LogoBadge id="pathao" label="Pathao" src="/badges/pathao.svg" href="https://pathao.com" videoSrc="/badges/pathao.mp4" width={290} active={logoHovered === "pathao"} dimmed={logoHovered !== null && logoHovered !== "pathao"} onHoverChange={setLogoHovered}>
@@ -152,33 +156,33 @@ function HeroContent() {
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.19 }}
-          className="mt-4 whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mt-4 whitespace-normal sm:whitespace-pre-line max-w-[540px] text-[15px] leading-relaxed text-neutral-500 dark:text-neutral-400"
         >
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>I&apos;ve worked at{" "}</span>
           <LogoBadge id="vivetica" label="Vivetica" src="/badges/vivetica-mark.svg" href="https://viveticacapital.ch" videoSrc="/badges/vivetica.mp4" width={290} active={logoHovered === "vivetica"} dimmed={logoHovered !== null && logoHovered !== "vivetica"} onHoverChange={setLogoHovered}>
-            <span className="whitespace-nowrap">
+            <span className="group/past whitespace-nowrap">
               <span className="mx-[1px] inline-block size-[21px] align-middle">
-                <img src="/badges/vivetica-mark.svg" alt="Vivetica" draggable={false} className="size-full rounded-full object-cover" />
+                <img src="/badges/vivetica-mark.svg" alt="Vivetica" draggable={false} className="size-full rounded-full object-cover opacity-70 grayscale transition-[filter,opacity] duration-300 group-hover/past:opacity-100 group-hover/past:grayscale-0" />
               </span>{" "}
-              <span className="font-medium text-black dark:text-white">Vivetica</span>
+              <span className="font-medium text-neutral-600 transition-colors duration-300 group-hover/past:text-black dark:text-neutral-300 dark:group-hover/past:text-white">Vivetica</span>
             </span>
           </LogoBadge>
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>,{" "}</span>
           <LogoBadge id="orbix" label="Orbix Studio" src="/badges/orbix.png" href="https://www.orbix.studio/" videoSrc="/badges/orbix.mp4" width={290} active={logoHovered === "orbix"} dimmed={logoHovered !== null && logoHovered !== "orbix"} onHoverChange={setLogoHovered}>
-            <span className="whitespace-nowrap">
+            <span className="group/past whitespace-nowrap">
               <span className="mx-[1px] inline-block size-[21px] align-middle">
-                <img src="/badges/orbix.png" alt="Orbix Studio" draggable={false} className="size-full rounded-full object-cover" />
+                <img src="/badges/orbix.png" alt="Orbix Studio" draggable={false} className="size-full rounded-full object-cover opacity-70 grayscale transition-[filter,opacity] duration-300 group-hover/past:opacity-100 group-hover/past:grayscale-0" />
               </span>{" "}
-              <span className="font-medium text-black dark:text-white">Orbix Studio</span>
+              <span className="font-medium text-neutral-600 transition-colors duration-300 group-hover/past:text-black dark:text-neutral-300 dark:group-hover/past:text-white">Orbix Studio</span>
             </span>
           </LogoBadge>{" "}
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>&amp;{" "}</span>
           <LogoBadge id="screens" label="ScreensDesign" src="/badges/screens.png" href="https://screensdesign.com" videoSrc="/badges/screens.mp4" width={290} active={logoHovered === "screens"} dimmed={logoHovered !== null && logoHovered !== "screens"} onHoverChange={setLogoHovered}>
-            <span className="whitespace-nowrap">
+            <span className="group/past whitespace-nowrap">
               <span className="mx-[1px] inline-block size-[21px] align-middle">
-                <img src="/badges/screens.png" alt="ScreensDesign" draggable={false} className="size-full rounded-full object-cover" />
+                <img src="/badges/screens.png" alt="ScreensDesign" draggable={false} className="size-full rounded-full object-cover opacity-70 grayscale transition-[filter,opacity] duration-300 group-hover/past:opacity-100 group-hover/past:grayscale-0" />
               </span>{" "}
-              <span className="font-medium text-black dark:text-white">ScreensDesign</span>
+              <span className="font-medium text-neutral-600 transition-colors duration-300 group-hover/past:text-black dark:text-neutral-300 dark:group-hover/past:text-white">ScreensDesign</span>
             </span>
           </LogoBadge>
           <span className={`transition-[filter] duration-300 ${logoHovered ? "blur-[8px]" : ""}`}>{"\n"}Outside of work, I build and open-source apps like{" "}</span>
@@ -396,6 +400,7 @@ function HeroContent() {
         </div>
 
         <motion.div
+          data-flight-stop
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
@@ -406,36 +411,61 @@ function HeroContent() {
         </motion.div>
 
         <motion.div
+          data-flight-stop
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.4 }}
           className="mt-14 w-full"
         >
-          <ProjectsSection />
+          <LinksLine />
         </motion.div>
 
         <motion.div
+          data-flight-stop
+          variants={FADE_UP}
+          initial={reduce ? false : "hidden"}
+          animate={welcomeDone ? "visible" : "hidden"}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.44 }}
+          // bleeds past the 540px column to the right viewport edge
+          className="mt-8 w-[calc(100%+(100vw-100%)/2)]"
+        >
+          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pr-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {homeCraft.map((c) => (
+              <div
+                key={c.src}
+                className="relative w-[min(640px,85vw)] shrink-0 snap-start overflow-hidden rounded-2xl"
+              >
+                <CraftVideoCard src={c.src} href={c.href} aspect={c.aspect} />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          data-flight-stop
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
           transition={{ duration: 0.45, ease: "easeOut", delay: 0.47 }}
+          className="mt-14 w-full"
+        >
+          <ProjectsSection />
+        </motion.div>
+
+        <motion.div
+          data-flight-stop
+          variants={FADE_UP}
+          initial={reduce ? false : "hidden"}
+          animate={welcomeDone ? "visible" : "hidden"}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.54 }}
           className="mt-6 w-full"
         >
           <ArchiveSection />
         </motion.div>
 
         <motion.div
-          variants={FADE_UP}
-          initial={reduce ? false : "hidden"}
-          animate={welcomeDone ? "visible" : "hidden"}
-          transition={{ duration: 0.45, ease: "easeOut", delay: 0.54 }}
-          className="mt-14 w-full"
-        >
-          <LinksLine />
-        </motion.div>
-
-        <motion.div
+          data-flight-stop
           variants={FADE_UP}
           initial={reduce ? false : "hidden"}
           animate={welcomeDone ? "visible" : "hidden"}
@@ -456,6 +486,13 @@ function HeroContent() {
     </div>
   );
 }
+
+// home strip order: GlobalBank, the mobile fitness app, then the rest
+const HOME_ORDER = ["/craft-globalbank.mp4", "/craft-fitness-app.mp4"];
+const homeCraft = [
+  ...HOME_ORDER.flatMap((src) => craftItems.filter((c) => c.src === src)),
+  ...craftItems.filter((c) => !HOME_ORDER.includes(c.src)),
+];
 
 export default function Home() {
   return (
