@@ -205,6 +205,20 @@ export function Contribution3D({
     [weeks],
   );
 
+  // the flat tile sheet only spans complete weeks; a partial first/last week
+  // (e.g. the current week, which ends today) gets its empty days drawn one by
+  // one, so no tiles appear for days that don't exist yet
+  const full = (w: Cell[]) => w.length === 7 && w.every(Boolean);
+  const first = weeks.length && !full(weeks[0]) ? 1 : 0;
+  const last = weeks.length > first && !full(weeks[weeks.length - 1]) ? weeks.length - 2 : weeks.length - 1;
+  const partialEmpty = useMemo(
+    () =>
+      weeks.flatMap((week, w) =>
+        w < first || w > last ? week.map((cell, d) => (cell && cell.count === 0 ? { w, d } : null)).filter(Boolean) : [],
+      ) as { w: number; d: number }[],
+    [weeks, first, last],
+  );
+
   const captionRef = useRef<HTMLSpanElement>(null);
   const showHover = useCallback(
     (cell: Cell | null) => {
@@ -243,10 +257,27 @@ export function Contribution3D({
         >
           {/* every day as one flat tile sheet: a single masked element
               instead of hundreds of divs */}
-          <div
-            className={`absolute inset-0 ${LEVEL_BG[0]}`}
-            style={{ maskImage: TILE_MASK, WebkitMaskImage: TILE_MASK, maskSize: `${P}px ${P}px`, WebkitMaskSize: `${P}px ${P}px` }}
-          />
+          {last >= first && (
+            <div
+              className={`absolute top-0 ${LEVEL_BG[0]}`}
+              style={{
+                left: first * P,
+                width: (last - first + 1) * P - G,
+                height: H,
+                maskImage: TILE_MASK,
+                WebkitMaskImage: TILE_MASK,
+                maskSize: `${P}px ${P}px`,
+                WebkitMaskSize: `${P}px ${P}px`,
+              }}
+            />
+          )}
+          {partialEmpty.map(({ w, d }) => (
+            <div
+              key={`e-${w}-${d}`}
+              className={`absolute rounded-[4px] ${LEVEL_BG[0]}`}
+              style={{ left: w * P, top: d * P, width: C, height: C }}
+            />
+          ))}
           <Columns cells={active} raised={raised} reduce={reduce} onHover={showHover} />
         </motion.div>
       </div>
