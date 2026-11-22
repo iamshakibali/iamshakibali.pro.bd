@@ -94,17 +94,25 @@ export function ContributionGraph() {
         // take the latest weeks that fit at 10px cells
         const weeks = groups.slice(-WEEKS);
         // compute month labels from the actual data
+        // a label sits over the first week of each month; one that would land
+        // closer than 3 weeks to the previous label is dropped (the leading
+        // partial month gives way to the next), as GitHub does
+        const MIN_GAP = 3;
         const months: { label: string; week: number }[] = [];
-        const seen = new Set<string>();
+        let prevMonth = "";
         weeks.forEach((w, wi) => {
           const first = w.find(Boolean);
           if (!first) return;
           const m = first.label.split(" ")[0];
-          if (!seen.has(m)) {
-            seen.add(m);
-            months.push({ label: m, week: wi });
-          }
+          if (m === prevMonth) return;
+          prevMonth = m;
+          const prev = months[months.length - 1];
+          if (prev && wi - prev.week < MIN_GAP) months.pop();
+          months.push({ label: m, week: wi });
         });
+        // the last label also needs room to fit before the grid ends
+        const tail = months[months.length - 1];
+        if (tail && weeks.length - tail.week < 2) months.pop();
         const total = json.contributions.reduce((s, c) => s + c.count, 0);
         setData({ weeks, months, total });
         setLoading(false);
@@ -232,7 +240,7 @@ export function ContributionGraph() {
           >
             {months.map(({ label, week }) => (
               <span
-                key={label}
+                key={week}
                 className="absolute top-0 whitespace-nowrap font-mono text-[10px] leading-none text-neutral-500 dark:text-neutral-400"
                 style={{ left: week * PITCH }}
               >

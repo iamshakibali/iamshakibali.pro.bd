@@ -9,8 +9,9 @@ export type ContributionsPayload = {
   contributions: Contribution[];
 };
 
-const API_URL = "https://github-contributions-api.jogruber.de/v4/iamshakibali";
-const CACHE_KEY = "gh-contributions-raw-v1";
+// y=last: the rolling 365 days ending today (no future days of this year)
+const API_URL = "https://github-contributions-api.jogruber.de/v4/iamshakibali?y=last";
+const CACHE_KEY = "gh-contributions-raw-v2";
 const TIMEOUT_MS = 6000;
 
 let inflight: Promise<ContributionsPayload> | null = null;
