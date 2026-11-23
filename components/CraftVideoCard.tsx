@@ -34,6 +34,12 @@ export function CraftVideoCard({
           e.currentTarget.dataset.ready = "true";
         }}
       />
+      {/* subtle hairline stroke, drawn over the video so light-background
+          pieces don't bleed into the page */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-black/[0.06] dark:ring-white/10"
+      />
       {href ? (
         <div className="absolute bottom-4 right-4">
           <a
