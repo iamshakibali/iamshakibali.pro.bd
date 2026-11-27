@@ -32,6 +32,12 @@ body {
    it unlocks — shifting centred content, e.g. the signature, sideways */
 html {
   scrollbar-gutter: stable;
+  /* never scroll sideways: decorative pieces (blob buddy, emoji particles,
+     bleed-out carousels) poke past the right edge. `hidden` is the fallback
+     for browsers without `clip`; on the root both apply to the viewport, so
+     sticky positioning keeps working */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
